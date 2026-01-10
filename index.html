@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Firebase App (base) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<script>
+    // Aapka Asli Firebase Config (Image se uthaya gaya)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCtM17whd74HdOa3OHqC39cGdWKs2rGxew",
+        authDomain: "silentgridnex-6cd37.firebaseapp.com",
+        projectId: "silentgridnex-6cd37",
+        storageBucket: "silentgridnex-6cd37.firebasestorage.app",
+        messagingSenderId: "1000743152636",
+        appId: "1:1000743152636:web:af4b984be6cd805446e079"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+</script>
+
+    <title>AlphaVault/X01 - Secure Terminal</title>
+    <!-- PDF Library for Notebook -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* --- UPDATED ENTRY PAGE STYLES --- */
+        #entry-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjrD4BcELWNBaUkmh-Z9FCYvvq7HH0S7jKGZv2Zf6U4AB5hQviq3FTPewmgRZhuZd4L7e6u-0MRXVYv3dqOdTb20deLIapx0ms59U2P7z7tigCQRxcRRCB_2LlMma2fgNjiJrBNGqkOPhBmFJ8hpIKKBaq03ZG0RNBKRXCUF3peQMftY6hzMti2r_E5dsSv/s736/We%20are%20anonymus.jpeg') no-repeat center center;
+            background-size: cover;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .entry-glass-box {
+            background: rgba(10, 10, 10, 0.85); 
+            backdrop-filter: blur(15px);
+            padding: 0; 
+            border: 1px solid #444;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+            border-radius: 4px;
+            overflow: hidden;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .entry-header {
+            background: #a00000;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #ff0000;
+        }
+
+        .entry-header i {
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .entry-header span {
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .entry-content {
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .entry-glass-box h2 {
+            color: #ffffff;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-weight: normal;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .entry-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .entry-input-wrapper i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a00000;
+            font-size: 12px;
+        }
+
+        #initialPhraseInput {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            border-left: 3px solid #a00000;
+            padding: 12px 12px 12px 35px;
+            color: #fff;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            box-sizing: border-box;
+            outline: none;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+
+        #initialPhraseInput:focus {
+            border-color: #a00000;
+            box-shadow: 0 0 10px rgba(160, 0, 0, 0.3);
+        }
+
+        .entry-btn {
+            background: #a00000;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 100%;
+            letter-spacing: 2px;
+            font-size: 11px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            transition: 0.3s;
+        }
+
+        .entry-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        #main-wrapper { 
+            display: none; 
+            width: 100%; 
+            min-height: 100vh; 
+            flex-direction: column; 
+        }
+
+        body {
+            background-color: #121212; 
+            color: #e0e0e0; 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* GLOBAL CODING FONT */ 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            letter-spacing: 0.5px; 
+            font-size: 12px;
+        }
+
+        .container {
+            width: 100%; 
+            flex-grow: 1; 
+            background-color: #1a1a1a; 
+            border: none;
+            box-shadow: none;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        #grid-toast {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0a0a0a;
+            border: 1px solid #a00000; 
+            color: #00ff41;
+            padding: 12px 20px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            font-size: 11px;
+            z-index: 2000;
+            box-shadow: 0 0 20px rgba(160, 0, 0, 0.4);
+            border-left: 5px solid #a00000; 
+            text-transform: uppercase;
+            animation: toastSlide 0.5s ease-out;
+        }
+        @keyframes toastSlide { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        #uploadSuccessModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); 
+            backdrop-filter: blur(4px); 
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .success-box {
+            background: rgba(10, 10, 10, 0.7); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid #a00000; 
+            width: 90%;
+            max-width: 480px;
+            padding: 0;
+            box-shadow: none; 
+            text-align: center;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .console-log {
+            background: rgba(0, 0, 0, 0.5); 
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid #222;
+            text-align: left;
+            font-size: 10px;
+            color: #00ff41;
+            line-height: 1.5;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+        }
+
+        /* --- UPDATED HEADER FLEX STYLES --- */
+        .secret-header {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://t4.ftcdn.net/jpg/06/40/13/29/360_F_640132973_wnEFcq2zI1xAAHNrcUrtVsM9AdznZj64.jpg'),
+                linear-gradient(135deg, #222222 0%, #1a1a1a 100%);
+            background-size: cover;
+            background-position: center;
+            padding: 40px; 
+            text-align: left; 
+            position: relative;
+            border-bottom: 2px solid #555555; 
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 5px;
+            margin-top: -5px; 
+            max-width: 100%; 
+        }
+
+        .secret-header h1 {
+            color: #ffffff;
+            font-size: 18px;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 3px; 
+            font-family: 'Arial Black', sans-serif;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .secret-header h1::after {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, transparent 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            content: "Alpha02nex";
+            font-size: 18px;
+            letter-spacing: 3px;
+            font-family: 'Arial Black', sans-serif;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            color: transparent;
+            transform: scaleY(-1);
+            filter: blur(0.5px);
+            opacity: 0.6;
+            transform-origin: top;
+            pointer-events: none;
+            display: block;
+        }
+
+        .secret-header p {
+            color: #c0c0c0;
+            font-size: 10px;
+            margin-top: 8px; 
+            font-style: normal;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 2px;
+            letter-spacing: 0.8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .secret-header p::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #777777;
+        }
+        
+        .menu-wrapper {
+            width: 100%;
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333333;
+            position: relative;
+        }
+        
+        .menu-toggle {
+            background-color: #121212;
+            color: #ff0000;
+            padding: 12px 20px;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #333333;
+            transition: background-color 0.2s;
+            outline: none;
+        }
+        
+        .dropdown-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #1a1a1a;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            border-bottom: 1px solid #ff0000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        
+        .dropdown-menu.open {
+            max-height: 500px;
+        }
+        
+        .dropdown-menu li a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #ff0000;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            border-top: 1px solid #2a2a2a;
+            cursor: pointer;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #2a0000;
+            padding-left: 30px;
+        }
+
+        .category-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .category-trigger {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            border-left: 3px solid #a00000;
+            padding: 12px 15px;
+            color: #ffffff; 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        .category-trigger:hover {
+            border-color: #a00000;
+            background: #050505;
+        }
+
+        .category-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #ff0000;
+            border-top: none;
+            z-index: 1000;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .category-list.active {
+            max-height: 300px;
+            overflow-y: auto; 
+        }
+
+        .category-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .category-list::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        .category-list::-webkit-scrollbar-thumb {
+            background: #333;
+            border: 1px solid #a00000;
+            border-radius: 2px;
+        }
+        .category-list::-webkit-scrollbar-thumb:hover {
+            background: #a00000;
+        }
+
+        .category-list li {
+            padding: 12px 15px;
+            color: #ffffff; 
+            font-size: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-top: 1px solid #222;
+            transition: 0.2s;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .category-list li:hover {
+            background: #2a0000;
+            color: #ffffff;
+            padding-left: 20px;
+        }
+
+        /* --- SPECIAL STYLES FOR SECURE COMMS DROPDOWN (SMALLER) --- */
+        #secure-comms-section .category-container {
+            width: 180px; /* REDUCED SIZE TO 180px */
+            margin: 10px 0 20px 0;
+        }
+
+        #secure-comms-section .category-trigger {
+            background: #a00000; 
+            border: 1px solid #333;
+            padding: 6px 10px; /* Reduced padding */
+            font-size: 9px; /* Reduced font */
+            cursor: default; 
+            pointer-events: none; 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+        
+        #secure-comms-section .category-trigger i {
+            display: none;
+        }
+
+        #secure-comms-section .category-list {
+            width: 180px; /* REDUCED SIZE TO 180px */
+        }
+
+        #comms-cat-list {
+            position: relative !important; 
+            display: block !important;    
+            max-height: none !important;  
+            overflow-y: visible !important;
+            border: 1px solid #333;
+            box-shadow: none;
+            margin-top: -1px; 
+            opacity: 1 !important;
+        }
+        
+        .comms-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comms-logo {
+            width: 16px; /* Smaller logo */
+            height: 16px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #a00000;
+            background: #000;
+        }
+        
+        #secure-comms-section .category-list li {
+            padding: 8px 10px; /* Smaller list items */
+            font-size: 9px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        /* --- UPDATED BIGGER WINDOW FOR RECORDS --- */
+        #commsSmallWindow {
+            display: none;
+            position: fixed; 
+            width: 500px; 
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-top: 1px solid #555;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+            z-index: 3000; 
+            animation: fadeIn 0.3s;
+        }
+
+        #commsWindowContent {
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            font-size: 10px;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+        }
+        
+        /* --- NEW WINDOW LOWER RIGHT STYLE (UPDATED: BIGGER & TRANSPARENT) --- */
+        #comms-monitor-window {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 600px; /* Increased Width */
+            height: 350px; /* Added Height */
+            z-index: 1000;
+            display: block;
+            background-color: rgba(0, 0, 0, 0.2) !important; /* Transparent Background */
+            backdrop-filter: blur(2px); /* Slight Blur */
+            border: 1px solid #444;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+        }
+
+        #comms-monitor-window .win-bar {
+            background: rgba(0, 0, 0, 0.4); /* Transparent Title Bar */
+            border-bottom: 1px solid #444;
+        }
+
+        .status-bar {
+            background-color: #a00000;
+            color: #ffffff;
+            text-align: center;
+            padding: 6px 0;
+            font-weight: bold;
+            letter-spacing: 1px; 
+            border-bottom: 2px solid #700000;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+            font-size: 0.7em;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .content-area {
+            max-width: 900px; 
+            margin: 0 auto;
+            padding: 20px; 
+            line-height: 1.5;
+            background-color: #1a1a1a;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+        
+        .date {
+            color: #ffffff; 
+            font-size: 0.75em;
+            margin-bottom: 12px;
+            font-weight: bold;
+            border-left: 3px solid #ff0000;
+            padding-left: 10px;
+            text-transform: uppercase;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .notebook-container {
+            border: 1px solid #333;
+            background: #0a0a0a;
+            border-radius: 4px;
+            overflow: hidden;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        #notebook-title {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            border-left: 3px solid #a00000;
+            padding: 10px 15px;
+            color: #fff;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            box-sizing: border-box;
+            outline: none;
+            font-size: 11px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #notebook-title::placeholder {
+            color: #444;
+        }
+
+        .editor-toolbar {
+            background: #222;
+            padding: 10px;
+            border-bottom: 1px solid #444;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .editor-toolbar button {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            font-size: 10px; 
+            transition: 0.2s;
+        }
+
+        .editor-toolbar button:hover {
+            background: #a00000;
+            border-color: #ff0000;
+        }
+
+        #rich-editor {
+            min-height: 400px;
+            padding: 20px;
+            color: #e0e0e0;
+            outline: none;
+            font-family: 'Arial', sans-serif; /* Note: Body text of rich editor usually stays readable sans-serif, but surrounding is code */
+            background: #111;
+            overflow-y: auto;
+            font-size: 13px;
+        }
+
+        #rich-editor img { max-width: 100%; height: auto; margin: 10px 0; display: block; }
+        #rich-editor video, #rich-editor audio { max-width: 100%; margin: 10px 0; display: block; }
+        #rich-editor iframe { max-width: 100%; margin: 10px 0; }
+
+        .editor-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .editor-modal {
+            background: #1a1a1a;
+            border: 1px solid #a00000; 
+            width: 90%;
+            max-width: 450px;
+            padding: 0;
+            box-shadow: 0 0 30px rgba(160, 0, 0, 0.2);
+            animation: modalSlide 0.3s ease-out;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        @keyframes modalSlide { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .modal-header {
+            background: #a00000; 
+            color: white;
+            padding: 10px 15px;
+            font-size: 10px; 
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .modal-body { padding: 20px; }
+        
+        .modal-label {
+            color: #a00000; 
+            display: block;
+            margin-bottom: 10px;
+            font-size: 10px; 
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .modal-input {
+            width: 100%;
+            background: #000;
+            border: 1px solid #444;
+            padding: 12px;
+            color: #888888; 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        .modal-input:focus { border-color: #a00000; }
+
+        .modal-actions { display: flex; gap: 10px; }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            font-size: 11px; 
+        }
+
+        .btn-confirm { background: #a00000; color: white; } 
+        .btn-cancel { background: #333; color: #ccc; }
+
+        .tech-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #a00000, #ff0000, #a00000, transparent);
+            margin: 30px 0 20px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .tech-divider::before {
+            content: "[ PROTOCOL-X92 ]";
+            position: absolute;
+            top: -10px;
+            font-size: 8px; 
+            color: #ff0000;
+            background-color: #1a1a1a;
+            padding: 0 15px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .tech-divider::after {
+            width: 40px; 
+            height: 2px;
+            background: #ff0000;
+            position: absolute;
+            bottom: -1px;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        #upload-section {
+            display: none;
+            border: 1px solid #333;
+            padding: 25px;
+            background: linear-gradient(180deg, #121212 0%, #0a0a0a 100%);
+            border-radius: 4px;
+            position: relative;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        #upload-section::before {
+            content: "SECURE NODE";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: #a00000;
+            font-size: 8px; 
+            padding: 2px 10px;
+            border-radius: 2px;
+            letter-spacing: 2px;
+        }
+
+        .upload-flex-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; 
+            align-items: flex-start;
+        }
+
+        .upload-left-side {
+            flex: 1.2;
+            min-width: 250px;
+        }
+
+        .upload-right-side {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        /* --- UPDATED WIN-BOX FONT STYLES (Requirement: "DejaVu Sans Mono or Monospace") --- */
+        .win-box {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-top: 1px solid #555;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+        }
+
+        .win-bar {
+            background: linear-gradient(to right, #2a2a2a, #1a1a1a);
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .win-title {
+            font-size: 9px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+            font-weight: bold;
+        }
+
+        .win-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .win-btn {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #333;
+        }
+
+        .win-btn.red { background: #ff5f56; }
+        .win-btn.yellow { background: #ffbd2e; }
+        .win-btn.green { background: #27c93f; }
+
+        .win-body {
+            padding: 15px;
+            font-size: 10px;
+            color: #00ff41;
+            line-height: 1.6;
+            min-height: 180px;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+        }
+
+        /* --- REQUIREMENT: SECURE COMMS BLUE COLOR & FONT --- */
+        /* --- ADDED: #upload-section .win-body to apply blue color to Node_Console.exe --- */
+        #secure-comms-section .win-body,
+        #comms-monitor-window .win-body,
+        #commsSmallWindow .win-body,
+        #upload-section .win-body {
+            color: #569cd6 !important; /* BLUE COLOR */
+            font-family: 'DejaVu Sans Mono', monospace !important; /* ENSURE FONT */
+        }
+
+        .upload-form label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #ff0000;
+            text-transform: uppercase;
+            font-size: 0.7em; 
+            letter-spacing: 1px;
+            font-weight: bold;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .upload-form input[type="text"], 
+        .upload-form textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444;
+            border-left: 2px solid #a00000;
+            color: #ffffff;
+            padding: 12px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s;
+            font-size: 11px;
+        }
+
+        .file-drop-zone {
+            border: 2px dashed #444;
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0,0,0,0.2);
+            width: 120px; 
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .file-drop-zone i {
+            font-size: 1.8em !important; 
+            margin-bottom: 8px !important;
+        }
+
+        .file-drop-zone p {
+            font-size: 8px !important;
+            margin: 0 !important;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .btn-submit {
+            background: #a00000;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 100%;
+            letter-spacing: 2px;
+            font-size: 11px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .success-card {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .success-layout-wrapper { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 20px; }
+        .small-preview { width: 90px; height: 90px; background-color: #222; border: 1px solid #555; object-fit: cover; display: none; flex-shrink: 0; }
+
+        .result-bar {
+            background-color: #707070;
+            color: #e0e0e0;
+            padding: 8px 15px;
+            margin-bottom: 8px;
+            font-size: 0.75em; 
+            display: block;
+            word-wrap: break-word;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+        .bar-wide { width: 100%; box-sizing: border-box; }
+        .bar-short { width: 40%; box-sizing: border-box; }
+        .bar-description { height: auto; min-height: 50px; white-space: pre-wrap; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        #history-section {
+            display: none;
+            background-color: #000;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 20px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        .history-header-bar {
+            background: linear-gradient(to bottom, #444, #111);
+            padding: 8px 15px;
+            border-bottom: 2px solid #a00000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .history-header-bar h2 { margin: 0; color: #a00000; font-size: 11px; text-transform: uppercase; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */ }
+
+        .history-table { width: 100%; border-collapse: collapse; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */ }
+        .history-table th { background-color: #900000; color: #ffffff; font-size: 9px; padding: 10px 8px; text-align: left; border: 1px solid #000; }
+        .history-table td { background-color: #1a1a1a; color: #aaa; padding: 12px 10px; border: 1px solid #111; font-size: 10px; }
+        .history-table tr:nth-child(even) td { background-color: #161616; }
+
+        .status-verified { border-color: #ff3333; background: radial-gradient(circle, #ff3333 30%, transparent 70%); }
+        .status-circle { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #555; display: inline-block; }
+        .col-topic { color: #ff3333; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .col-topic a { color: #ff3333; text-decoration: none; }
+        .col-category { color: #888; font-size: 9px; text-transform: uppercase; font-weight: bold; }
+
+        .progress-container { display: none; margin-top: 20px; background: #222; height: 6px; border-radius: 4px; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #a00000, #ff0000); width: 0%; }
+
+        @media (max-width: 768px) {
+            .home-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- TERMINAL SPECIFIC STYLES --- */
+        #terminal-console {
+            width: 100%;
+            height: 250px;
+            background: #000;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+            font-size: 10px;
+            color: #569cd6; /* HIGHLIGHTED BLUE */
+            overflow-y: auto;
+            padding: 5px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        #terminal-input {
+            background: transparent;
+            border: none;
+            color: #569cd6; /* HIGHLIGHTED BLUE */
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+            font-size: 10px;
+            outline: none;
+            width: 100%;
+            margin-left: 5px;
+        }
+
+        /* --- DASHBOARD LOG TEXT (KERNEL LOG) --- */
+        .dash-log-text {
+            color: #569cd6; /* UPDATED TO BLUE */
+            font-size: 9px;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+            line-height: 1.4;
+        }
+
+        /* --- DASHBOARD STATUS ROW (ACTIVE NODES) --- */
+        .dash-status-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #222;
+            padding: 5px 0;
+            font-size: 9px;
+            color: #aaa;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+        }
+        .dash-status-val { color: #fff; font-weight: bold; }
+
+        /* DELETED FOOTER STYLES WERE HERE */
+
+        .dl-link { 
+            color: #ffffff; 
+            text-decoration: none; 
+            font-weight: bold; 
+            border: 1px solid #800000; 
+            padding: 1px 6px; 
+            background: #800000; 
+            transition: 0.3s; 
+            cursor: pointer; 
+            display: inline-block; 
+            border-radius: 1px;
+            font-size: 8.5px;
+            box-shadow: none;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+        .dl-link:hover { 
+            background: #a00000; 
+            color: #ffffff; 
+            border-color: #cccccc; 
+        }
+
+        #access-denied-popup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ad-modal {
+            background: #1a1a1a;
+            border: 1px solid #a00000; 
+            width: 90%;
+            max-width: 450px;
+            padding: 0;
+            box-shadow: none; 
+            animation: adShake 0.4s ease-in-out;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        @keyframes adShake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .ad-header-bar {
+            background: #a00000; 
+            color: white;
+            padding: 12px 15px;
+            font-size: 11px; 
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ad-body-content { padding: 25px; text-align: center; }
+        
+        .ad-warning-sign {
+            font-size: 45px;
+            color: #ff0000;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .ad-red-label {
+            color: #ff0000; 
+            display: block;
+            margin-bottom: 5px;
+            font-size: 10px; 
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .ad-white-text {
+            color: #bbbbbb;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .ad-message-box {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            padding: 15px;
+            color: #ff0000; 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 20px;
+            font-size: 12px;
+            text-align: center;
+            letter-spacing: 1px;
+            border-left: 3px solid #ff0000;
+        }
+
+        .ad-actions-row { display: flex; gap: 15px; }
+        
+        .ad-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            font-size: 11px; 
+            letter-spacing: 1px;
+        }
+
+        .ad-btn-abort { background: #333; color: #ccc; }
+        .ad-btn-retry { background: #a00000; color: white; }
+
+        /* --- UPDATED HOME DASHBOARD STYLES (MODIFIED FOR POPUP) --- */
+        .activation-btn {
+            background: #000;
+            border: 1px solid #a00000;
+            color: #a00000;
+            padding: 8px 15px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            margin: 10px 0;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .activation-btn:hover {
+            background: #a00000;
+            color: #fff;
+            box-shadow: 0 0 10px #a00000;
+        }
+
+        .home-dashboard-grid {
+            display: none; /* HIDDEN BY DEFAULT */
+            /* POPUP STYLE */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 900px;
+            background-color: rgba(10, 10, 10, 0.98);
+            
+            /* --- UPDATED STYLES START: NO RED GLOW + SMOOTH ANIMATION --- */
+            border: 1px solid #333; /* Neutral Border */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9); /* Deep Shadow (No Red) */
+            animation: popupSmoothOpen 0.15s ease-out; /* Smooth Opening Animation */
+            /* --- UPDATED STYLES END --- */
+
+            z-index: 5000;
+            padding: 20px;
+            /* Grid Layout maintained */
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto;
+            gap: 15px;
+            border-radius: 4px;
+        }
+
+        /* NEW KEYFRAMES FOR SMOOTH POPUP */
+        @keyframes popupSmoothOpen {
+            from { opacity: 0; transform: translate(-50%, -48%) scale(0.98); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .dash-close-btn {
+            grid-column: span 2;
+            text-align: right;
+            margin-bottom: 5px;
+        }
+
+        .dash-close-btn button {
+            background: #333;
+            border: 1px solid #555;
+            color: #ccc;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Consolas', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+        }
+        .dash-close-btn button:hover {
+            background: #a00000;
+            color: white;
+            border-color: #ff0000;
+        }
+
+        .dash-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .dash-win-content {
+            background: #050505;
+            padding: 10px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
+        }
+
+        .dash-map-placeholder {
+            width: 100%;
+            height: 250px;
+            background: 
+                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url('https://media.istockphoto.com/id/1144604854/vector/fingerprint-scan.jpg?s=612x612&w=0&k=20&c=N5p6KqP1Dk_5vQyVbFqY_X_X5vQyVbFqY_X_X5vQyVbFqY_X=') no-repeat center center;
+            background-size: cover;
+            border: 1px solid #222;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dash-map-overlay {
+            color: #00ff41;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff41;
+            animation: pulseText 2s infinite;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+        }
+
+        @keyframes pulseText { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body onload="initApp()">
+
+    <!-- ACCESS DENIED POPUP -->
+    <div id="access-denied-popup">
+        <div class="ad-modal">
+            <div class="ad-header-bar">
+                <span><i class="fas fa-shield-alt"></i> SECURITY SYSTEM REJECTION</span>
+                <i class="fas fa-times" onclick="closeAdPopup()" style="cursor:pointer"></i>
+            </div>
+            <div class="ad-body-content">
+                <div class="ad-warning-sign">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <span class="ad-red-label">SECURITY VIOLATION DETECTED:</span>
+                <span class="ad-white-text">PROTOCOL ERROR: INVALID SECURITY PHRASE</span>
+                <div class="ad-message-box">CORE SYSTEM ACCESS: DENIED</div>
+                <div class="ad-actions-row">
+                    <button class="ad-btn ad-btn-abort" onclick="closeAdPopup()">ABORT</button>
+                    <button class="ad-btn ad-btn-retry" onclick="closeAdPopup()">RETRY</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. ENTRY GATE PAGE -->
+    <div id="entry-page">
+        <div class="entry-glass-box">
+            <div class="entry-header">
+                <i class="fas fa-shield-halved"></i>
+                <span>Secure Node Login</span>
+            </div>
+            <div class="entry-content">
+                <h2>Authorize Access</h2>
+                <div class="entry-input-wrapper">
+                    <i class="fas fa-terminal"></i>
+                    <input type="text" id="initialPhraseInput" placeholder="Enter security phrase...">
+                </div>
+                <button class="entry-btn" onclick="unlockMainSite()">Verify Authorization</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WRAPPER FOR MAIN SITE -->
+    <div id="main-wrapper">
+        <div id="grid-toast">
+            <i class="fas fa-shield-alt" style="margin-right: 10px;"></i>
+            <span id="toast-msg"></span>
+        </div>
+
+        <div id="uploadConfirmModal" class="editor-modal-overlay">
+            <div class="editor-modal">
+                <div class="modal-header">
+                    <span>SECURITY AUTHORIZATION</span>
+                    <i class="fas fa-times" onclick="closeConfirmModal()" style="cursor:pointer"></i>
+                </div>
+                <div class="modal-body">
+                    <span class="modal-label">VERIFY TRANSMISSION PROTOCOL:</span>
+                    <p style="font-size: 10px; color: #888; margin-top: -5px; margin-bottom: 15px;">ENTER MISSION-CRITICAL SECURITY PHRASE</p>
+                    <input type="text" class="modal-input" id="securityPhraseInput" placeholder="Enter security phrase...">
+                    <div class="modal-actions">
+                        <button class="modal-btn btn-cancel" onclick="closeConfirmModal()">ABORT</button>
+                        <button class="modal-btn btn-confirm" onclick="verifySecurityAndUpload()">AUTHORIZE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="uploadSuccessModal">
+            <div class="success-box">
+                <div class="modal-header">
+                    <span>Transmission Accomplished</span>
+                    <i class="fas fa-times" onclick="closeSuccessModal()" style="cursor:pointer"></i>
+                </div>
+                <div class="modal-body" style="padding: 30px;">
+                    <i class="fas fa-check-double" style="font-size: 40px; color: #00ff41; margin-bottom: 20px;"></i>
+                    <h2 style="color: #ffffff; letter-spacing: 2px; margin: 0 0 10px 0; font-size: 18px;">INTEL SYNCHRONIZED</h2>
+                    <div class="console-log">
+                        > HANDSHAKE ESTABLISHED... [OK]<br>
+                        > PACKET ENCRYPTION (AES-256)... [OK]<br>
+                        > STORAGE NODE: GRID-X08... [OK]<br>
+                        > GLOBAL ACCESS GRANTED... [TRUE]
+                    </div>
+                    <button class="modal-btn btn-confirm" style="width: 100%;" onclick="closeSuccessModal()">ACKNOWLEDGE TRANSMISSION</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-modal-overlay" id="urlModal">
+            <div class="editor-modal">
+                <div class="modal-header">
+                    <span id="modalTitle">Insert Resource</span>
+                    <i class="fas fa-times" onclick="closeUrlModal()" style="cursor:pointer"></i>
+                </div>
+                <div class="modal-body">
+                    <span class="modal-label" id="modalLabel">Enter Destination URL:</span>
+                    <input type="text" class="modal-input" id="modalInput" placeholder="https://...">
+                    <div class="modal-actions">
+                        <button class="modal-btn btn-cancel" onclick="closeUrlModal()">Abort</button>
+                        <button class="modal-btn btn-confirm" id="modalConfirmBtn">Inject Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <header class="secret-header">
+                <div class="header-content">
+                    <h1>alpha02nex</h1>
+                    <p>Secure & hidden Services | Global Intelligence Network [ESTD-2025]</p>
+                </div>
+            </header>
+            
+            <div class="menu-wrapper">
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <i class="fas fa-terminal"></i> MENU
+                </button>
+                <ul id="dropdownMenu" class="dropdown-menu">
+                    <li><a onclick="showPage('default-content')">Home</a></li>
+                    <li><a onclick="showPage('upload-section')">Uplode DATA</a></li>
+                    <li><a onclick="showPage('history-section')">DATA HISTORY</a></li>
+                    <li><a onclick="showPage('notebook-section')">notebook [08]</a></li>
+                    <li><a href="#">Network Map</a></li>
+                    <li><a onclick="showPage('secure-comms-section')">Secure Comms</a></li>
+                </ul>
+            </div>
+
+            <div class="status-bar">
+                <span>:: SYSTEM STATUS :: - SECURE <span id="realTimeClock"></span></span>
+            </div>
+
+            <main class="content-area" id="main-content">
+                
+                <div id="default-content">
+                    <div class="date">CLASSIFIED DIRECTIVE - 2025.09.25</div>
+                    <p>Access to the AlphaVault/X01 secure network has now been fully restored. All personnel are instructed to return to using the designated encrypted communication methods.</p>
+                    
+                    <!-- !!! NEW ACTIVATION BUTTON !!! -->
+                    <button class="activation-btn" onclick="toggleDashboard(true)">[ ACTIVATION STATUS: OFF ]</button>
+
+                    <div class="tech-divider"></div>
+                    
+                    <!-- !!! NEW BIG WINDOWS DASHBOARD SECTION (POPUP) !!! -->
+                    <div class="home-dashboard-grid" id="homeDashboard">
+                        
+                        <!-- CLOSE BUTTON FOR POPUP -->
+                        <div class="dash-close-btn">
+                            <button onclick="toggleDashboard(false)">CLOSE TERMINAL [X]</button>
+                        </div>
+
+                        <!-- LEFT LARGE WINDOW (REPLACED MAP WITH TERMINAL) -->
+                        <div class="win-box" style="grid-row: span 2;">
+                            <div class="win-bar">
+                                <div class="win-title">GLOBAL_NET_ACTIVITY.EXE</div>
+                                <div class="win-controls">
+                                    <div class="win-btn green"></div>
+                                    <div class="win-btn yellow"></div>
+                                    <div class="win-btn red"></div>
+                                </div>
+                            </div>
+                            <div class="dash-win-content" style="padding:0;">
+                                <div id="terminal-console">
+                                    <div>Kali GNU/Linux Rolling [Version 2025.1]</div>
+                                    <div>(c) Global Security Net. All rights reserved.</div>
+                                    <br>
+                                    <div>> SYSTEM LOCKED. UPLOAD/EDIT DISABLED.</div>
+                                    <div>> ENTER ACTIVATION KEY TO UNLOCK...</div>
+                                    <div id="term-output"></div>
+                                    <div style="display:flex; margin-top:5px;">
+                                        <span style="color:#ff0000; margin-right:5px;" id="term-prompt">root@grid:~/lock#</span>
+                                        <input type="text" id="terminal-input" autocomplete="off" onkeydown="handleTerminalCommand(event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT TOP WINDOW -->
+                        <div class="win-box">
+                            <div class="win-bar">
+                                <div class="win-title">ACTIVE_NODES</div>
+                                <div class="win-controls">
+                                    <div class="win-btn green"></div>
+                                </div>
+                            </div>
+                            <div class="dash-win-content">
+                                <div class="dash-status-row"><span>PROXY-01</span> <span class="dash-status-val" style="color:#00ff41">ONLINE</span></div>
+                                <div class="dash-status-row"><span>PROXY-02</span> <span class="dash-status-val" style="color:#00ff41">ONLINE</span></div>
+                                <div class="dash-status-row"><span>PROXY-03</span> <span class="dash-status-val" style="color:#ffbd2e">WARN</span></div>
+                                <div class="dash-status-row"><span>PROXY-04</span> <span class="dash-status-val" style="color:#ff0000">OFFLINE</span></div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT BOTTOM WINDOW -->
+                        <div class="win-box">
+                            <div class="win-bar">
+                                <div class="win-title">KERNEL_LOG</div>
+                                <div class="win-controls">
+                                    <div class="win-btn yellow"></div>
+                                </div>
+                            </div>
+                            <div class="dash-win-content">
+                                <!-- ADDED ID TO THIS SECTION FOR JS MANIPULATION -->
+                                <div class="dash-log-text" id="kernel-log-content">
+                                    [10:42:01] ROOT ACCESS GRANTED<br>
+                                    [10:42:05] DOWNLOADING PACKET...<br>
+                                    [10:42:08] ENCRYPTION KEY: VALID<br>
+                                    [10:42:15] UPDATING DATABASE...<br>
+                                    [10:42:22] <span style="animation: pulseText 1s infinite">WAITING FOR COMMAND_</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- !!! END NEW SECTION !!! -->
+
+                    <p><strong>Operational Guidelines:</strong></p>
+                    <ol>
+                        <li>Public discussions of operations are prohibited.</li>
+                        <li>Only verified devices may be used.</li>
+                    </ol>
+                </div>
+
+                <!-- NEW SECURE COMMS SECTION - ALWAYS OPEN MENU -->
+                <div id="secure-comms-section" style="display:none;">
+                    <div class="date">ENCRYPTED COMM CHANNELS</div>
+                    <p>Select a secure frequency for classified transmission:</p>
+                    
+                    <div class="category-container">
+                        <input type="hidden" id="comms-category" value="Select Channel">
+                        
+                        <!-- REMOVED onclick to prevent closing, removed arrow, styled as header -->
+                        <div class="category-trigger">
+                            <span id="comms-cat-label">Select Channel...</span>
+                        </div>
+                        
+                        <!-- ADDED inline style to guarantee it stays open and visible -->
+                        <ul id="comms-cat-list" class="category-list" style="display: block; max-height: none;">
+                            <!-- General -->
+                            <li onclick="selectComms('General', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=GN&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>General</span>
+                                </div>
+                            </li>
+                            <!-- Artificial intelligence -->
+                            <li onclick="selectComms('Artificial intelligence', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=AI&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Artificial intelligence</span>
+                                </div>
+                            </li>
+                            <!-- Cybersecurity -->
+                            <li onclick="selectComms('Cybersecurity', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=CS&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Cybersecurity</span>
+                                </div>
+                            </li>
+                            <!-- Codes -->
+                            <li onclick="selectComms('Codes', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=CD&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Codes</span>
+                                </div>
+                            </li>
+                            <!-- Victim -->
+                            <li onclick="selectComms('Victim', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=VC&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Victim</span>
+                                </div>
+                            </li>
+                            <!-- Thrate -->
+                            <li onclick="selectComms('Thrate', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=TH&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Thrate</span>
+                                </div>
+                            </li>
+                            <!-- Report -->
+                            <li onclick="selectComms('Report', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=RP&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Report</span>
+                                </div>
+                            </li>
+                            <!-- Data -->
+                            <li onclick="selectComms('Data', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=DT&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Data</span>
+                                </div>
+                            </li>
+                            <!-- Informations -->
+                            <li onclick="selectComms('Informations', event)">
+                                <div class="comms-option">
+                                    <img src="https://ui-avatars.com/api/?name=IN&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
+                                    <span>Informations</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 20px; border: 1px solid #333; padding: 20px; background: #0a0a0a; text-align:center;">
+                        <i class="fas fa-satellite-dish" style="font-size: 40px; color: #333; margin-bottom: 10px;"></i>
+                        <p style="color: #666; font-size: 10px;">AWAITING CHANNEL SELECTION FOR HANDSHAKE...</p>
+                    </div>
+
+                    <!-- NEW WINDOW: Lower Right Side (Inside Secure Comms Only) -->
+                    <div id="comms-monitor-window" class="win-box">
+                        <div class="win-bar">
+                            <div class="win-title">LIVE SIGNAL FEED</div>
+                            <div class="win-controls">
+                                <div class="win-btn green"></div>
+                                <div class="win-btn yellow"></div>
+                            </div>
+                        </div>
+                        <div class="win-body" style="font-size: 9px; line-height: 1.4;">
+                            > CONNECTED NODES: 4<br>
+                            > ENCRYPTION: ACTIVE<br>
+                            > LATENCY: 24ms<br>
+                            > PACKET LOSS: 0%<br>
+                            > UPLINK: STABLE<br>
+                            --------------------<br>
+                            <span style="color: #ff0000;">[!] MONITORING TRAFFIC</span><br>
+                            <br>
+                            > _
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: SMALL DESKTOP WINDOW (POSITIONED ABSOLUTELY) -->
+                <div id="commsSmallWindow" class="win-box">
+                    <div class="win-bar">
+                        <div class="win-title" id="commsWindowTitle">Channel: N/A</div>
+                        <div class="win-controls">
+                            <div class="win-btn green"></div>
+                            <div class="win-btn yellow"></div>
+                            <div class="win-btn red" onclick="closeCommsWindow()" style="cursor:pointer"></div>
+                        </div>
+                    </div>
+                    <div class="win-body" id="commsWindowContent">
+                        <!-- Data will load here -->
+                    </div>
+                </div>
+
+                <!-- NOTEBOOK SECTION -->
+                <div id="notebook-section" style="display:none;">
+                    <div class="date">SECURE NOTEBOOK TERMINAL [X-08]</div>
+                    
+                    <div class="category-container">
+                        <input type="hidden" id="notebook-category" value="General">
+                        <div class="category-trigger" onclick="toggleCustomDropdown('notebook-cat-list')">
+                            <span id="notebook-cat-label">Classification: General</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <ul id="notebook-cat-list" class="category-list">
+                            <li onclick="selectCategory('notebook', 'General')">General</li>
+                            <li onclick="selectCategory('notebook', 'Artificial intelligence')">Artificial intelligence</li>
+                            <li onclick="selectCategory('notebook', 'Cybersecurity')">Cybersecurity</li>
+                            <li onclick="selectCategory('notebook', 'Codes')">Codes</li>
+                            <li onclick="selectCategory('notebook', 'Victim')">Victim</li>
+                            <li onclick="selectCategory('notebook', 'Thrate')">Thrate</li>
+                            <li onclick="selectCategory('notebook', 'Report')">Report</li>
+                            <li onclick="selectCategory('notebook', 'Data')">Data</li>
+                            <li onclick="selectCategory('notebook', 'Informations')">Informations</li>
+                        </ul>
+                    </div>
+
+                    <input type="text" id="notebook-title" placeholder="ENTER NOTE TITLE HERE...">
+                    
+                    <div class="notebook-container">
+                        <div class="editor-toolbar">
+                            <button onclick="execCmd('bold')" title="Bold"><i class="fas fa-bold"></i></button>
+                            <button onclick="execCmd('italic')" title="Italic"><i class="fas fa-italic"></i></button>
+                            <button onclick="execCmd('underline')" title="Underline"><i class="fas fa-underline"></i></button>
+                            <button onclick="execCmd('insertUnorderedList')" title="Bullets"><i class="fas fa-list-ul"></i></button>
+                            <button onclick="execCmd('insertOrderedList')" title="Numbers"><i class="fas fa-list-ol"></i></button>
+                            <button onclick="openCustomPrompt('LINK')" title="Insert Link"><i class="fas fa-link"></i></button>
+                            
+                            <button onclick="triggerNotebookFileUpload('image')" title="Upload Image"><i class="fas fa-image"></i></button>
+                            <button onclick="triggerNotebookFileUpload('video')" title="Upload Video"><i class="fas fa-video"></i></button>
+                            <button onclick="triggerNotebookFileUpload('audio')" title="Upload Audio"><i class="fas fa-volume-up"></i></button>
+                            
+                            <input type="file" id="nb-image-input" accept="image/*" style="display:none" onchange="handleNotebookFile(this, 'image')">
+                            <input type="file" id="nb-video-input" accept="video/*" style="display:none" onchange="handleNotebookFile(this, 'video')">
+                            <input type="file" id="nb-audio-input" accept="audio/*" style="display:none" onchange="handleNotebookFile(this, 'audio')">
+
+                            <button onclick="execCmd('justifyLeft')"><i class="fas fa-align-left"></i></button>
+                            <button onclick="execCmd('removeFormat')" title="Clear"><i class="fas fa-eraser"></i></button>
+                            <button onclick="uploadNoteToGrid()" title="Upload to Grid" style="background:#a00000; color:white;"><i class="fas fa-cloud-upload-alt"></i></button>
+                            <button onclick="downloadNoteAsPDF()" title="PDF Download" style="background:#2a2a2a;"><i class="fas fa-file-pdf"></i></button>
+                            <button onclick="downloadNoteAsTXT()" title="TXT Download" style="background:#2a2a2a;"><i class="fas fa-file-alt"></i></button>
+                        </div>
+                        <div id="rich-editor" contenteditable="true" spellcheck="false">
+                            <p>Write your secure notes here...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UPLOAD DATA SECTION -->
+                <div id="upload-section">
+                    <div class="date">SECURE DATA UPLOAD NODE</div>
+                    
+                    <div class="upload-flex-container">
+                        <div class="upload-left-side">
+                            <form class="upload-form" id="secureUploadForm">
+                                <label><i class="fas fa-id-badge"></i> File ID</label>
+                                <input type="text" id="hist_id" placeholder="e.g. ALPHA-02-X" required>
+                                
+                                <label><i class="fas fa-tags"></i> Category</label>
+                                <div class="category-container">
+                                    <input type="hidden" id="upload-category" value="General">
+                                    <div class="category-trigger" onclick="toggleCustomDropdown('upload-cat-list')">
+                                        <span id="upload-cat-label">Classification: General</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <ul id="upload-cat-list" class="category-list">
+                                        <li onclick="selectCategory('upload', 'General')">General</li>
+                                        <li onclick="selectCategory('upload', 'Artificial intelligence')">Artificial intelligence</li>
+                                        <li onclick="selectCategory('upload', 'Cybersecurity')">Cybersecurity</li>
+                                        <li onclick="selectCategory('upload', 'Codes')">Codes</li>
+                                        <li onclick="selectCategory('upload', 'Victim')">Victim</li>
+                                        <li onclick="selectCategory('upload', 'Thrate')">Thrate</li>
+                                        <li onclick="selectCategory('upload', 'Report')">Report</li>
+                                        <li onclick="selectCategory('upload', 'Data')">Data</li>
+                                        <li onclick="selectCategory('upload', 'Informations')">Informations</li>
+                                    </ul>
+                                </div>
+
+                                <label><i class="fas fa-file-alt"></i> Description</label>
+                                <textarea id="hist_desc" rows="3" placeholder="Enter secure intel details..."></textarea>
+                                
+                                <div class="file-drop-zone" onclick="document.getElementById('fileInput').click()">
+                                    <i class="fas fa-cloud-upload-alt" style="color: #a00000;"></i>
+                                    <p>SELECT FILES</p>
+                                    <input type="file" id="fileInput" multiple style="display:none" onchange="updateFileList()">
+                                </div>
+
+                                <div id="fileNames" style="font-size: 0.8em; color: #00ff41; margin-bottom: 15px; font-weight: bold;"></div>
+                                <button type="submit" class="btn-submit" id="mainSubmitBtn">
+                                    <i class="fas fa-lock"></i> Initialize Transmission
+                                </button>
+                                <div class="progress-container" id="progContainer"><div class="progress-bar" id="progBar"></div></div>
+                            </form>
+                        </div>
+
+                        <div class="upload-right-side">
+                            <div class="win-box">
+                                <div class="win-bar">
+                                    <div class="win-title">Node_Console.exe</div>
+                                    <div class="win-controls">
+                                        <div class="win-btn green"></div>
+                                        <div class="win-btn yellow"></div>
+                                        <div class="win-btn red"></div>
+                                    </div>
+                                </div>
+                                <div class="win-body">
+                                    > SYSTEM STATUS: ONLINE<br>
+                                    > UPLOAD BUFFER: READY<br>
+                                    > ENCRYPTION: AES-256 BIT<br>
+                                    > LOCATION: HIDDEN_GRID_08<br>
+                                    > -------------------------<br>
+                                    > Awaiting secure packets...<br>
+                                    > All transmissions are logged.<br>
+                                    > IP Trace protection active.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUCCESS SECTION -->
+                    <div id="successSection" class="success-card">
+                        <div class="success-layout-wrapper">
+                            <img id="uploadImgPreview" class="small-preview" alt="Preview">
+                            <div style="flex-grow: 1;">
+                                <div class="result-bar bar-wide" id="res-id">File ID</div>
+                                <div class="result-bar bar-wide bar-description" id="res-desc">Description</div>
+                            </div>
+                        </div>
+                        <div class="result-bar bar-short" id="res-size">Size</div>
+                        <div class="result-bar bar-short" id="res-date">Date</div>
+                        <div class="result-bar bar-short" id="res-time">Time</div>
+                        <button onclick="resetUploadForm()" class="btn-submit" style="margin-top: 20px; background: #333333; border: 1px solid #555555; color: #bbbbbb;">
+                            <i class="fas fa-plus-circle"></i> UPLOAD NEW DATA
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DATA HISTORY -->
+                <div id="history-section">
+                    <div class="history-header-bar">
+                        <h2>DATA LOGS HISTORY</h2>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%;">Topics</th>
+                                    <th style="width: 15%;">Category</th>
+                                    <th style="width: 15%;">Verified</th> 
+                                    <th style="width: 10%;">Logs ID</th>
+                                    <th style="width: 10%;">Author</th>
+                                    <th style="width: 10%;">Download</th>
+                                    <th style="width: 15%;">Last Post</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- FOOTER REMOVED -->
+
+    </div>
+
+    <script>
+        let historyFilesStorage = [];
+        let globalLogData = []; 
+        let globalSystemActive = false; 
+        let authStep = 0; 
+
+        // --- FIREBASE SYNC FUNCTIONS ---
+        function initApp() {
+            updateStatusTime();
+            loadLogsFromFirebase(); // Start real-time sync
+        }
+
+        function loadLogsFromFirebase() {
+            // Firestore se logs ko descending order (latest first) mein listen karein
+            db.collection("silentgrid_logs").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+                const table = document.getElementById('history-body');
+                table.innerHTML = ""; // Clear UI table
+                globalLogData = [];   // Reset local array
+
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const dateObj = data.timestamp ? data.timestamp.toDate() : new Date();
+
+                    // Global array fill karein (Secure Comms window ke liye)
+                    globalLogData.push({
+                        id: data.id,
+                        category: data.category,
+                        date: dateObj,
+                        files: [{ name: "Cloud_Sync.txt" }] // Cloud record placeholder
+                    });
+
+                    // UI Table Row create karein
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><div class="col-topic"><span class="status-circle status-verified"></span><a href="#">${data.id}</a></div></td>
+                        <td><span class="col-category">[ ${data.category} ]</span></td>
+                        <td style="color:#00ff41; font-weight:bold; font-size:10px;">VERIFIED</td>
+                        <td>#${doc.id.substring(0,4).toUpperCase()}</td>
+                        <td style="color:#e6db74;">SYSTEM</td>
+                        <td><a class="dl-link">CLOUD</a></td>
+                        <td>${dateObj.toLocaleDateString()}<br>by ADMIN</td>
+                    `;
+                    table.appendChild(row);
+                });
+            });
+        }
+
+        function toggleDashboard(show) {
+            const dash = document.getElementById('homeDashboard');
+            if(show) { dash.style.display = 'grid'; } 
+            else { dash.style.display = 'none'; }
+        }
+
+        function runKernelCodes() {
+            const logBox = document.getElementById('kernel-log-content');
+            logBox.innerHTML = ""; 
+            const logs = [
+                "INITIATING GLOBAL UNLOCK SEQUENCE...",
+                "VERIFYING USER 'ROHIT'...",
+                "SECONDARY KEY 'NEX' ACCEPTED...",
+                "DECRYPTING UPLOAD MODULES...",
+                "BYPASSING FIREWALL (LAYER 4)...",
+                "CONNECTING TO SECURE CLOUD NODES...",
+                "AUTHENTICATION TOKEN: VERIFIED",
+                "ACCESS TO DATABASE: GRANTED",
+                "SYSTEM: ONLINE - READY FOR COMMAND"
+            ];
+
+            let delay = 0;
+            logs.forEach(line => {
+                setTimeout(() => {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString('en-GB'); 
+                    logBox.innerHTML += `<div>[${timeString}] ${line}</div>`;
+                    logBox.scrollTop = logBox.scrollHeight;
+                }, delay);
+                delay += Math.floor(Math.random() * 500) + 400; 
+            });
+        }
+
+        function handleTerminalCommand(e) {
+            if(e.key === 'Enter') {
+                const input = document.getElementById('terminal-input');
+                const output = document.getElementById('term-output');
+                const val = input.value.trim();
+                const currentPrompt = document.getElementById('term-prompt').innerText;
+                output.innerHTML += `<div>${currentPrompt} ${val}</div>`;
+                
+                if(val === "clear") { output.innerHTML = ""; } 
+                else if (authStep === 0) {
+                    if (val === "Rohit") {
+                        authStep = 1;
+                        output.innerHTML += `<div style="color:#ffbd2e;">> USER IDENTIFIED. ENTER SECONDARY KEY...</div>`;
+                    } else { output.innerHTML += `<div style="color:#ff0000;">> ACCESS DENIED: INVALID USER</div>`; }
+                } 
+                else if (authStep === 1) {
+                    if (val === "nex") {
+                        globalSystemActive = true;
+                        authStep = 2; 
+                        output.innerHTML += `<div style="color:#00ff41;">> ACCESS GRANTED: all are nex</div>`;
+                        output.innerHTML += `<div style="color:#00ff41;">> GLOBAL UPLOAD PROTOCOLS UNLOCKED.</div>`;
+                        document.getElementById('term-prompt').innerText = "root@grid:~#";
+                        document.getElementById('term-prompt').style.color = "#00ff41";
+                        showGridToast("SYSTEM UNLOCKED: UPLOADS ENABLED");
+                        runKernelCodes();
+                    } else {
+                        authStep = 0; 
+                        output.innerHTML += `<div style="color:#ff0000;">> ACCESS DENIED: WRONG KEY. RESETTING...</div>`;
+                    }
+                } 
+                else { output.innerHTML += `<div style="color:#aaa;">> COMMAND RECEIVED (System Active).</div>`; }
+                input.value = "";
+                document.getElementById('terminal-console').scrollTop = document.getElementById('terminal-console').scrollHeight;
+            }
+        }
+
+        function toggleCustomDropdown(id) {
+            const list = document.getElementById(id);
+            const allLists = document.querySelectorAll('.category-list');
+            allLists.forEach(l => { if(l.id !== id && l.id !== 'comms-cat-list') l.classList.remove('active'); });
+            list.classList.toggle('active');
+        }
+
+        function selectCategory(type, value) {
+            document.getElementById(type + '-category').value = value;
+            document.getElementById(type + '-cat-label').innerText = 'Classification: ' + value;
+            document.getElementById(type + '-cat-list').classList.remove('active');
+        }
+        
+        function selectComms(category, event) {
+            event.stopPropagation(); 
+            document.getElementById('comms-category').value = category;
+            openCommsWindow(category, event.currentTarget);
+        }
+
+        function openCommsWindow(category, triggerElement) {
+            const win = document.getElementById('commsSmallWindow');
+            const title = document.getElementById('commsWindowTitle');
+            const content = document.getElementById('commsWindowContent');
+            const rect = triggerElement.getBoundingClientRect();
+            win.style.top = rect.top + 'px';
+            win.style.left = (rect.right + 10) + 'px';
+            title.innerText = "DATA RECORD: " + category.toUpperCase();
+            const filteredData = globalLogData.filter(item => item.category === category);
+            
+            if (filteredData.length === 0) {
+                content.innerHTML = `<div style="text-align:center; padding:80px 10px; color:#666;"><i class="fas fa-ban" style="font-size:30px; margin-bottom:15px;"></i><br><span style="font-size:12px; letter-spacing:1px;">NO DATA RECORDS FOUND</span></div>`;
+            } else {
+                let html = '<table style="width:100%; border-collapse:collapse; font-size:10px;"><thead><tr style="border-bottom:1px solid #444; color:#888;"><th style="text-align:left; padding:8px 5px;">ID</th><th style="text-align:left; padding:8px 5px;">DATE</th><th style="text-align:right; padding:8px 5px;">SOURCE</th></tr></thead><tbody>';
+                filteredData.forEach((item) => {
+                    html += `<tr style="border-bottom:1px solid #222;"><td style="color:#a00000; padding:8px 5px; font-weight:bold;">${item.id}</td><td style="color:#666; padding:8px 5px;">${item.date.toLocaleDateString()}</td><td style="text-align:right; padding:8px 5px; color:#569cd6;">CLOUD_NODE</td></tr>`;
+                });
+                html += '</tbody></table>';
+                content.innerHTML = html;
+            }
+            win.style.display = 'block';
+        }
+
+        function closeCommsWindow() { document.getElementById('commsSmallWindow').style.display = 'none'; }
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.category-container')) {
+                document.querySelectorAll('.category-list').forEach(l => { if (l.id !== 'comms-cat-list') { l.classList.remove('active'); } });
+            }
+            if (!e.target.closest('#commsSmallWindow') && !e.target.closest('#secure-comms-section .category-list')) { closeCommsWindow(); }
+        });
+
+        function triggerAccessDenied() { document.getElementById('access-denied-popup').style.display = 'flex'; }
+        function closeAdPopup() { document.getElementById('access-denied-popup').style.display = 'none'; }
+
+        function unlockMainSite() {
+            const val = document.getElementById('initialPhraseInput').value;
+            if(val === "Xcvnex") {
+                document.getElementById('entry-page').style.display = 'none';
+                document.getElementById('main-wrapper').style.display = 'flex';
+                showGridToast("ACCESS GRANTED: WELCOME TO AlphaVault/X01
+                ");
+            } else { triggerAccessDenied(); }
+        }
+
+        let currentMode = ""; 
+        let savedRange = null; 
+        let pendingUploadSource = ""; 
+
+        function toggleMenu() { document.getElementById('dropdownMenu').classList.toggle('open'); }
+        function showPage(pageId) {
+            document.getElementById('default-content').style.display = 'none';
+            document.getElementById('upload-section').style.display = 'none';
+            document.getElementById('history-section').style.display = 'none';
+            document.getElementById('notebook-section').style.display = 'none';
+            document.getElementById('secure-comms-section').style.display = 'none';
+            document.getElementById(pageId).style.display = 'block';
+            document.getElementById('dropdownMenu').classList.remove('open');
+        }
+
+        function execCmd(command) { document.execCommand(command, false, null); }
+        function openCustomPrompt(mode) {
+            const sel = window.getSelection();
+            if (sel.rangeCount > 0) { savedRange = sel.getRangeAt(0); }
+            currentMode = mode;
+            const modal = document.getElementById('urlModal');
+            const input = document.getElementById('modalInput');
+            modal.style.display = "flex";
+            input.value = "";
+            input.focus();
+            document.getElementById('modalConfirmBtn').onclick = function() {
+                const val = input.value;
+                if(val) {
+                    document.getElementById('rich-editor').focus();
+                    if (savedRange) {
+                        const s = window.getSelection();
+                        s.removeAllRanges();
+                        s.addRange(savedRange);
+                    }
+                    if(currentMode === 'LINK') document.execCommand("createLink", false, val);
+                }
+                closeUrlModal();
+            };
+        }
+
+        function triggerNotebookFileUpload(type) { document.getElementById('nb-' + type + '-input').click(); }
+        function handleNotebookFile(input, type) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                let htmlToInsert = "";
+                if (type === 'image') htmlToInsert = `<img src="${dataUrl}" alt="uploaded image">`;
+                else if (type === 'video') htmlToInsert = `<video controls src="${dataUrl}"></video>`;
+                else if (type === 'audio') htmlToInsert = `<audio controls src="${dataUrl}"></audio>`;
+                insertHTMLAtCursor(htmlToInsert);
+                input.value = "";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function insertHTMLAtCursor(html) {
+            document.getElementById('rich-editor').focus();
+            let sel, range;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    range.deleteContents();
+                    const el = document.createElement("div");
+                    el.innerHTML = html;
+                    const frag = document.createDocumentFragment();
+                    let node, lastNode;
+                    while ((node = el.firstChild)) { lastNode = frag.appendChild(node); }
+                    range.insertNode(frag);
+                    if (lastNode) {
+                        range = range.cloneRange();
+                        range.setStartAfter(lastNode);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
+            }
+        }
+
+        function closeUrlModal() { document.getElementById('urlModal').style.display = "none"; }
+        function showGridToast(message) {
+            const toast = document.getElementById('grid-toast');
+            const msg = document.getElementById('toast-msg');
+            msg.innerText = message;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4000);
+        }
+
+        function closeSuccessModal() { document.getElementById('uploadSuccessModal').style.display = 'none'; }
+        function closeConfirmModal() { document.getElementById('uploadConfirmModal').style.display = 'none'; }
+
+        function uploadNoteToGrid() {
+            if(!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+            pendingUploadSource = "NOTE";
+            document.getElementById('securityPhraseInput').value = "";
+            document.getElementById('uploadConfirmModal').style.display = 'flex';
+        }
+
+        function verifySecurityAndUpload() {
+            const phrase = document.getElementById('securityPhraseInput').value;
+            if (phrase === "Xcvnex") {
+                closeConfirmModal();
+                if (pendingUploadSource === "NOTE") startNoteTransmission();
+                else if (pendingUploadSource === "DATA") executeDataUploadTransmission();
+            } else { closeConfirmModal(); triggerAccessDenied(); }
+        }
+
+        // --- UPDATED FIREBASE WRITE: NOTEBOOK ---
+        function startNoteTransmission() {
+            const noteTitle = document.getElementById('notebook-title').value || "NOTEBOOK_ENTRY";
+            const category = document.getElementById('notebook-category').value;
+            const noteContent = document.getElementById('rich-editor').innerText;
+
+            db.collection("silentgrid_logs").add({
+                id: noteTitle,
+                category: category,
+                content: noteContent,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                document.getElementById('uploadSuccessModal').style.display = 'flex';
+                document.getElementById('notebook-title').value = "";
+                document.getElementById('rich-editor').innerHTML = "<p>Write your secure notes here...</p>";
+            }).catch(err => {
+                showGridToast("TRANSMISSION ERROR: " + err.message);
+            });
+        }
+
+        function updateFileList() {
+            const input = document.getElementById('fileInput');
+            const output = document.getElementById('fileNames');
+            output.innerHTML = input.files.length > 0 ? "READY: " + input.files.length + " FILES LOADED" : "";
+        }
+
+        document.getElementById('secureUploadForm').onsubmit = function(e) {
+            e.preventDefault();
+            if(!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+            pendingUploadSource = "DATA";
+            document.getElementById('securityPhraseInput').value = "";
+            document.getElementById('uploadConfirmModal').style.display = 'flex';
+        };
+
+        // --- UPDATED FIREBASE WRITE: DATA UPLOAD ---
+        function executeDataUploadTransmission() {
+            const fileID = document.getElementById('hist_id').value;
+            const category = document.getElementById('upload-category').value;
+            const description = document.getElementById('hist_desc').value;
+
+            db.collection("silentgrid_logs").add({
+                id: fileID,
+                category: category,
+                content: description,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                document.getElementById('uploadSuccessModal').style.display = 'flex';
+                resetUploadForm();
+            }).catch(err => {
+                showGridToast("TRANSMISSION ERROR: " + err.message);
+            });
+        }
+
+        function resetUploadForm() {
+            document.getElementById('secureUploadForm').reset();
+            document.getElementById('fileNames').innerHTML = "";
+            document.getElementById('upload-cat-label').innerText = 'Classification: General';
+            document.getElementById('upload-category').value = 'General';
+        }
+
+        function updateStatusTime() {
+            const now = new Date();
+            document.getElementById('realTimeClock').textContent = `:: ${now.toLocaleTimeString()} ET`;
+        }
+        setInterval(updateStatusTime, 1000);
+    </script>
+</body>
+</html>
