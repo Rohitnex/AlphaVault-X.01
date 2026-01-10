@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- FAVICON SETUP -->
+    <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_mSxRlMNjXZ6wbc4YwK_AwsNPp_oLhl8SgwIIVgH2FA&s=10">
+
     <!-- Firebase App (base) -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<!-- Firebase Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Storage (NEW) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script>
-    // Aapka Real Firebase Config (Screenshot se liya gaya)
+    // Aapka Real Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyCtM17whd74HdOa3OHqC39cGdWKs2rGxew",
         authDomain: "silentgridnex-6cd37.firebaseapp.com",
@@ -23,9 +28,10 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const storage = firebase.storage(); // Initialize Storage
 </script>
 
-    <title>SILENTGRID - Secure Operations</title>
+    <title>AlphaVault/X01- Secure Terminal</title>
     <!-- PDF Library for Notebook -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -1439,7 +1445,7 @@
                 
                 <div id="default-content">
                     <div class="date">CLASSIFIED DIRECTIVE - 2025.09.25</div>
-                    <p>Access to the SILENTGRID secure network has now been fully restored. All personnel are instructed to return to using the designated encrypted communication methods.</p>
+                    <p>Access to the AlphaVault/X01 secure network has now been fully restored. All personnel are instructed to return to using the designated encrypted communication methods.</p>
                     
                     <!-- !!! NEW ACTIVATION BUTTON !!! -->
                     <button class="activation-btn" onclick="toggleDashboard(true)">[ ACTIVATION STATUS: OFF ]</button>
@@ -1746,7 +1752,7 @@
                                 <button type="submit" class="btn-submit" id="mainSubmitBtn">
                                     <i class="fas fa-lock"></i> Initialize Transmission
                                 </button>
-                                <div class="progress-container" id="progContainer"><div class="progress-bar" id="progBar"></div></div>
+                                <div class="progress-container" id="progContainer" style="display:block;"><div class="progress-bar" id="progBar"></div></div>
                             </form>
                         </div>
 
@@ -1822,7 +1828,6 @@
     </div>
 
     <script>
-        let historyFilesStorage = [];
         let globalLogData = []; 
         let globalSystemActive = false; 
         let authStep = 0; 
@@ -1830,37 +1835,52 @@
         // --- FIREBASE SYNC FUNCTIONS ---
         function initApp() {
             updateStatusTime();
-            loadLogsFromFirebase(); // Start real-time sync
+            loadLogsFromFirebase(); 
+        }
+
+        // Updated for real file download
+        function downloadFile(url, filename) {
+            if(!url) { showGridToast("ERROR: NO DATA LINK"); return; }
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showGridToast("DOWNLOADING: " + filename.toUpperCase());
         }
 
         function loadLogsFromFirebase() {
-            // Firestore se logs ko descending order (latest first) mein listen karein
             db.collection("silentgrid_logs").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
                 const table = document.getElementById('history-body');
-                table.innerHTML = ""; // Clear UI table
-                globalLogData = [];   // Reset local array
+                table.innerHTML = ""; 
+                globalLogData = [];   
 
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const dateObj = data.timestamp ? data.timestamp.toDate() : new Date();
 
-                    // Global array fill karein (Secure Comms window ke liye)
                     globalLogData.push({
                         id: data.id,
                         category: data.category,
-                        date: dateObj,
-                        files: [{ name: "Cloud_Sync.txt" }] // Cloud record placeholder
+                        content: data.content,
+                        fileUrl: data.fileUrl,
+                        date: dateObj
                     });
 
-                    // UI Table Row create karein
                     const row = document.createElement('tr');
+                    const downloadBtn = data.fileUrl 
+                        ? `<a class="dl-link" onclick="downloadFile('${data.fileUrl}', '${data.id}')">DOWNLOAD</a>`
+                        : `<a class="dl-link" style="opacity:0.5; cursor:not-allowed;">NO FILE</a>`;
+
                     row.innerHTML = `
                         <td><div class="col-topic"><span class="status-circle status-verified"></span><a href="#">${data.id}</a></div></td>
                         <td><span class="col-category">[ ${data.category} ]</span></td>
                         <td style="color:#00ff41; font-weight:bold; font-size:10px;">VERIFIED</td>
                         <td>#${doc.id.substring(0,4).toUpperCase()}</td>
                         <td style="color:#e6db74;">SYSTEM</td>
-                        <td><a class="dl-link">CLOUD</a></td>
+                        <td>${downloadBtn}</td>
                         <td>${dateObj.toLocaleDateString()}<br>by ADMIN</td>
                     `;
                     table.appendChild(row);
@@ -1969,9 +1989,16 @@
             if (filteredData.length === 0) {
                 content.innerHTML = `<div style="text-align:center; padding:80px 10px; color:#666;"><i class="fas fa-ban" style="font-size:30px; margin-bottom:15px;"></i><br><span style="font-size:12px; letter-spacing:1px;">NO DATA RECORDS FOUND</span></div>`;
             } else {
-                let html = '<table style="width:100%; border-collapse:collapse; font-size:10px;"><thead><tr style="border-bottom:1px solid #444; color:#888;"><th style="text-align:left; padding:8px 5px;">ID</th><th style="text-align:left; padding:8px 5px;">DATE</th><th style="text-align:right; padding:8px 5px;">SOURCE</th></tr></thead><tbody>';
+                let html = '<table style="width:100%; border-collapse:collapse; font-size:10px;"><thead><tr style="border-bottom:1px solid #444; color:#888;"><th style="text-align:left; padding:8px 5px;">ID</th><th style="text-align:left; padding:8px 5px;">DATE</th><th style="text-align:right; padding:8px 5px;">ACTION</th></tr></thead><tbody>';
                 filteredData.forEach((item) => {
-                    html += `<tr style="border-bottom:1px solid #222;"><td style="color:#a00000; padding:8px 5px; font-weight:bold;">${item.id}</td><td style="color:#666; padding:8px 5px;">${item.date.toLocaleDateString()}</td><td style="text-align:right; padding:8px 5px; color:#569cd6;">CLOUD_NODE</td></tr>`;
+                    const dlBtn = item.fileUrl 
+                        ? `<a class="dl-link" onclick="downloadFile('${item.fileUrl}', '${item.id}')">SAVE</a>`
+                        : `<span style="color:#444">N/A</span>`;
+                    html += `<tr style="border-bottom:1px solid #222;">
+                        <td style="color:#a00000; padding:8px 5px; font-weight:bold;">${item.id}</td>
+                        <td style="color:#666; padding:8px 5px;">${item.date.toLocaleDateString()}</td>
+                        <td style="text-align:right; padding:8px 5px;">${dlBtn}</td>
+                    </tr>`;
                 });
                 html += '</tbody></table>';
                 content.innerHTML = html;
@@ -1996,7 +2023,7 @@
             if(val === "Xcvnex") {
                 document.getElementById('entry-page').style.display = 'none';
                 document.getElementById('main-wrapper').style.display = 'flex';
-                showGridToast("ACCESS GRANTED: WELCOME TO SILENTGRID");
+                showGridToast("ACCESS GRANTED: WELCOME TO AlphaVault/X01");
             } else { triggerAccessDenied(); }
         }
 
@@ -2110,7 +2137,6 @@
             } else { closeConfirmModal(); triggerAccessDenied(); }
         }
 
-        // --- UPDATED FIREBASE WRITE: NOTEBOOK ---
         function startNoteTransmission() {
             const noteTitle = document.getElementById('notebook-title').value || "NOTEBOOK_ENTRY";
             const category = document.getElementById('notebook-category').value;
@@ -2144,23 +2170,47 @@
             document.getElementById('uploadConfirmModal').style.display = 'flex';
         };
 
-        // --- UPDATED FIREBASE WRITE: DATA UPLOAD ---
-        function executeDataUploadTransmission() {
+        // --- UPDATED: CLOUD FILE UPLOAD LOGIC ---
+        async function executeDataUploadTransmission() {
+            const fileInput = document.getElementById('fileInput');
             const fileID = document.getElementById('hist_id').value;
             const category = document.getElementById('upload-category').value;
             const description = document.getElementById('hist_desc').value;
+            const progBar = document.getElementById('progBar');
+            
+            if (fileInput.files.length === 0) {
+                showGridToast("ERROR: NO FILES SELECTED");
+                return;
+            }
 
-            db.collection("silentgrid_logs").add({
-                id: fileID,
-                category: category,
-                content: description,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                document.getElementById('uploadSuccessModal').style.display = 'flex';
-                resetUploadForm();
-            }).catch(err => {
-                showGridToast("TRANSMISSION ERROR: " + err.message);
-            });
+            const file = fileInput.files[0];
+            const storageRef = storage.ref('silent_grid/' + Date.now() + "_" + file.name);
+            const uploadTask = storageRef.put(file);
+
+            uploadTask.on('state_changed', 
+                (snapshot) => {
+                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    progBar.style.width = progress + '%';
+                }, 
+                (error) => {
+                    showGridToast("UPLOAD FAILED: " + error.message);
+                }, 
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        db.collection("silentgrid_logs").add({
+                            id: fileID,
+                            category: category,
+                            content: description,
+                            fileUrl: downloadURL, // Cloud link save ho raha hai
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        }).then(() => {
+                            document.getElementById('uploadSuccessModal').style.display = 'flex';
+                            progBar.style.width = '0%';
+                            resetUploadForm();
+                        });
+                    });
+                }
+            );
         }
 
         function resetUploadForm() {
@@ -2172,7 +2222,8 @@
 
         function updateStatusTime() {
             const now = new Date();
-            document.getElementById('realTimeClock').textContent = `:: ${now.toLocaleTimeString()} ET`;
+            const clock = document.getElementById('realTimeClock');
+            if(clock) clock.textContent = `:: ${now.toLocaleTimeString()} ET`;
         }
         setInterval(updateStatusTime, 1000);
     </script>
