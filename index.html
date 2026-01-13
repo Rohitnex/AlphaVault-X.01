@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <!-- Firebase Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <!-- Firebase Storage (NEW) -->
+    <!-- Firebase Storage -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script>
@@ -28,7 +27,7 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const storage = firebase.storage(); // Initialize Storage
+    const storage = firebase.storage(); 
 </script>
 
     <title>AlphaVault/X01- Secure Terminal</title>
@@ -245,15 +244,15 @@
             font-family: 'DejaVu Sans Mono', monospace; /* UPDATED FONT */
         }
 
-        /* --- UPDATED HEADER FLEX STYLES --- */
+        /* --- UPDATED HEADER FLEX STYLES (HEADER SIZE INCREASED) --- */
         .secret-header {
             background: 
                 linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                url('https://t4.ftcdn.net/jpg/06/40/13/29/360_F_640132973_wnEFcq2zI1xAAHNrcUrtVsM9AdznZj64.jpg'),
+                url('https://www.maryville.edu/mpress/wp-content/uploads/sites/64/2016/05/cybersecurity.H.jpg'),
                 linear-gradient(135deg, #222222 0%, #1a1a1a 100%);
             background-size: cover;
             background-position: center;
-            padding: 40px; 
+            padding: 100px 40px; /* SIZE INCREASED FROM 40px TO 100px */
             text-align: left; 
             position: relative;
             border-bottom: 2px solid #555555; 
@@ -696,13 +695,34 @@
             animation: modalSlide 0.3s ease-out;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
         }
+        
+        /* NEW: Network Warning & Delete Confirm Modal Style */
+        .system-modal {
+            background: #1a1a1a;
+            /* **MODIFICATION 1: Faded Red Border** */
+            border: 1px solid #700000; /* Darker/faded red border */
+            width: 90%;
+            max-width: 480px;
+            padding: 0;
+            /* **MODIFICATION 2: Removed red glow** */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            animation: modalSlide 0.3s ease-out;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        .system-modal .modal-header {
+            /* **MODIFICATION 3: Faded Red Header** */
+            background: #a00000; /* Darker/faded red (same as entry header) */
+        }
 
         @keyframes modalSlide { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .modal-header {
+            /* Kept thin style from previous request, modifying color here */
+            /* **MODIFICATION 4: Faded Red Header** */
             background: #a00000; 
             color: white;
-            padding: 10px 15px;
+            padding: 5px 15px; 
             font-size: 10px; 
             font-weight: bold;
             text-transform: uppercase;
@@ -753,6 +773,15 @@
 
         .btn-confirm { background: #a00000; color: white; } 
         .btn-cancel { background: #333; color: #ccc; }
+
+        /* **MODIFICATION 5: Faded Red Icons/Text in Body** */
+        #networkWarning .system-modal i, #deleteConfirmModal .system-modal i {
+            color: #a00000; /* Faded/darker red icon */
+        }
+        /* **MODIFICATION 6: Faded Red Button Background in Body** */
+        #networkWarning .system-modal .btn-confirm, #deleteConfirmModal .system-modal #delete-modal-confirm-btn {
+            background: #a00000 !important; /* Faded/darker red button */
+        }
 
         .tech-divider {
             height: 1px;
@@ -888,6 +917,7 @@
         }
 
         .upload-form label {
+            /* Kept #ff0000 for consistency with other red labels/elements */
             display: block;
             margin: 15px 0 5px;
             color: #ff0000;
@@ -913,6 +943,12 @@
             font-size: 11px;
         }
 
+        /* FIX: INCREASE EDIT MODAL TEXTAREA HEIGHT */
+        #editLogModal textarea.modal-input {
+            height: 250px; /* Increased height for easier reading/editing of long content */
+            resize: vertical; /* Allow vertical resize only */
+        }
+        
         .file-drop-zone {
             border: 2px dashed #444;
             padding: 15px;
@@ -932,6 +968,7 @@
         }
 
         .file-drop-zone i {
+            color: #a00000; /* Kept for consistency */
             font-size: 1.8em !important; 
             margin-bottom: 8px !important;
         }
@@ -980,7 +1017,7 @@
         .bar-short { width: 40%; box-sizing: border-box; }
         .bar-description { height: auto; min-height: 50px; white-space: pre-wrap; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { transform: translateY(0); opacity: 1; } }
 
         #history-section {
             display: none;
@@ -1085,6 +1122,11 @@
             box-shadow: none;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
         }
+        /* ADDED STYLE FOR EDIT BUTTON (BLUE) */
+        .dl-link.edit-btn {
+            background: #004d99; 
+            border-color: #0066cc;
+        }
         .dl-link:hover { 
             background: #a00000; 
             color: #ffffff; 
@@ -1094,7 +1136,10 @@
         #access-denied-popup {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(5px);
             z-index: 20000;
@@ -1192,7 +1237,46 @@
 
         .ad-btn-abort { background: #333; color: #ccc; }
         .ad-btn-retry { background: #a00000; color: white; }
+        
+        /* NEW STYLES FOR GENERAL WARNINGS */
+        #networkWarning, #deleteConfirmModal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 4000;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
 
+        #networkWarning .system-modal .modal-body, #deleteConfirmModal .system-modal .modal-body {
+            padding: 30px; 
+            text-align: center; 
+            color: #ccc;
+        }
+        
+        #networkWarning .system-modal i, #deleteConfirmModal .system-modal i {
+            font-size: 40px; 
+            color: #ff0000; 
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        #networkWarning .system-modal h2, #deleteConfirmModal .system-modal h2 {
+            color: #ffffff; 
+            letter-spacing: 2px; 
+            margin: 0 0 10px 0; 
+            font-size: 16px; 
+            text-transform: uppercase;
+        }
+        
+        #networkWarning .system-modal p, #deleteConfirmModal .system-modal p {
+             font-size: 10px;
+             color: #888;
+             margin-bottom: 20px;
+        }
+        
         /* --- UPDATED HOME DASHBOARD STYLES (MODIFIED FOR POPUP) --- */
         .activation-btn {
             background: #000;
@@ -1313,6 +1397,41 @@
 </head>
 <body onload="initApp()">
 
+    <!-- NEW: NETWORK WARNING POPUP (MODIFIED FOR TECHNICAL LOOK) -->
+    <div id="networkWarning" class="editor-modal-overlay">
+        <div class="system-modal">
+            <div class="modal-header">
+                <span><i class="fas fa-satellite-dish"></i> SECURE LINK FAILURE</span>
+                <i class="fas fa-times" onclick="hideNetworkWarning()" style="cursor:pointer"></i>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-broadcast-tower"></i>
+                <h2>GRID SYNC PROTOCOL: OFFLINE</h2>
+                <p>CRITICAL: SECURE GRID DISCONNECTED. VERIFY LOCAL NETWORK INTEGRITY AND EXECUTE RECONNECT PROTOCOL TO RE-ESTABLISH SECURE LINK.</p>
+                <button class="modal-btn btn-confirm" style="background:#ff0000;" onclick="window.location.reload()">INITIATE RECONNECT PROTOCOL</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NEW: DELETE CONFIRMATION POPUP (MODIFIED FOR TECHNICAL LOOK) -->
+    <div id="deleteConfirmModal" class="editor-modal-overlay">
+        <div class="system-modal">
+            <div class="modal-header">
+                <span><i class="fas fa-skull-crossbones"></i> CRITICAL: DESTRUCT SEQUENCE INITIATION</span>
+                <i class="fas fa-times" onclick="closeDeleteConfirmModal()" style="cursor:pointer"></i>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-radiation"></i>
+                <h2 id="delete-modal-title">AUTHORIZE DATA TERMINATION</h2>
+                <p id="delete-modal-message">CRITICAL WARNING: DATA TRACE ERASURE IMMINENT. PROCEEDING WILL PERMANENTLY TERMINATE DATA OBJECT. INITIATE DESTRUCT SEQUENCE?</p>
+                <div class="modal-actions">
+                    <button class="modal-btn btn-cancel" onclick="closeDeleteConfirmModal()">CANCEL SEQUENCE</button>
+                    <button class="modal-btn btn-confirm" id="delete-modal-confirm-btn" style="background:#ff0000;">EXECUTE TERMINATION</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ACCESS DENIED POPUP -->
     <div id="access-denied-popup">
         <div class="ad-modal">
@@ -1378,6 +1497,41 @@
             </div>
         </div>
 
+        <!-- NEW EDIT MODAL FOR LOGS -->
+        <div id="editLogModal" class="editor-modal-overlay">
+            <div class="editor-modal" style="max-width: 550px;">
+                <div class="modal-header">
+                    <span>EDIT DATA LOG ENTRY</span>
+                    <i class="fas fa-times" onclick="closeEditModal()" style="cursor:pointer"></i>
+                </div>
+                <div class="modal-body">
+                    <span class="modal-label">FILE ID (TOPIC)</span>
+                    <input type="text" class="modal-input" id="edit-log-id" placeholder="Enter new File ID...">
+                    
+                    <span class="modal-label">CATEGORY</span>
+                    <select class="modal-input" id="edit-log-category" style="color: #fff;">
+                        <option value="General">General</option>
+                        <option value="Artificial intelligence">Artificial intelligence</option>
+                        <option value="Cybersecurity">Cybersecurity</option>
+                        <option value="Codes">Codes</option>
+                        <option value="Victim">Victim</option>
+                        <option value="Thrate">Thrate</option>
+                        <option value="Report">Report</option>
+                        <option value="Data">Data</option>
+                        <option value="Informations">Informations</option>
+                    </select>
+                    
+                    <span class="modal-label">DESCRIPTION/CONTENT (Text Only)</span>
+                    <textarea class="modal-input" id="edit-log-content" rows="4" style="color: #fff;"></textarea>
+                    
+                    <div class="modal-actions">
+                        <button class="modal-btn btn-cancel" onclick="closeEditModal()">CANCEL</button>
+                        <button class="modal-btn btn-confirm" id="edit-save-btn">SAVE CHANGES</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="uploadSuccessModal">
             <div class="success-box">
                 <div class="modal-header">
@@ -1418,7 +1572,7 @@
         <div class="container">
             <header class="secret-header">
                 <div class="header-content">
-                    <h1>alpha02nex</h1>
+                    <h1>AlphaVault/X01</h1>
                     <p>Secure & hidden Services | Global Intelligence Network [ESTD-2025]</p>
                 </div>
             </header>
@@ -1700,6 +1854,8 @@
                             <button onclick="execCmd('justifyLeft')"><i class="fas fa-align-left"></i></button>
                             <button onclick="execCmd('removeFormat')" title="Clear"><i class="fas fa-eraser"></i></button>
                             <button onclick="uploadNoteToGrid()" title="Upload to Grid" style="background:#a00000; color:white;"><i class="fas fa-cloud-upload-alt"></i></button>
+                            <!-- NEW BUTTON: VIEW HISTORY -->
+                            <button onclick="showPage('history-section')" title="View Notebook History" style="background:#2a2a2a;"><i class="fas fa-history"></i> HISTORY</button> 
                             <button onclick="downloadNoteAsPDF()" title="PDF Download" style="background:#2a2a2a;"><i class="fas fa-file-pdf"></i></button>
                             <button onclick="downloadNoteAsTXT()" title="TXT Download" style="background:#2a2a2a;"><i class="fas fa-file-alt"></i></button>
                         </div>
@@ -1752,7 +1908,7 @@
                                 <button type="submit" class="btn-submit" id="mainSubmitBtn">
                                     <i class="fas fa-lock"></i> Initialize Transmission
                                 </button>
-                                <div class="progress-container" id="progContainer" style="display:block;"><div class="progress-bar" id="progBar"></div></div>
+                                <div class="progress-container" id="progContainer" style="display:none;"><div class="progress-bar" id="progBar" style="width: 0%;"></div></div>
                             </form>
                         </div>
 
@@ -1772,7 +1928,7 @@
                                     > ENCRYPTION: AES-256 BIT<br>
                                     > LOCATION: HIDDEN_GRID_08<br>
                                     > -------------------------<br>
-                                    > Awaiting secure packets...<br>
+                                    > Awaiting secure packets.<br>
                                     > All transmissions are logged.<br>
                                     > IP Trace protection active.
                                 </div>
@@ -1812,8 +1968,8 @@
                                     <th style="width: 15%;">Verified</th> 
                                     <th style="width: 10%;">Logs ID</th>
                                     <th style="width: 10%;">Author</th>
-                                    <th style="width: 10%;">Download</th>
-                                    <th style="width: 15%;">Last Post</th>
+                                    <th style="width: 15%;">Actions</th> <!-- UPDATED COLUMN -->
+                                    <th style="width: 10%;">Last Post</th>
                                 </tr>
                             </thead>
                             <tbody id="history-body"></tbody>
@@ -1831,62 +1987,269 @@
         let globalLogData = []; 
         let globalSystemActive = false; 
         let authStep = 0; 
+        let currentEditingDocId = null; // New variable for edit modal doc ID
+        let currentNotebookDocId = null; // FIX: Track the currently loaded notebook entry's doc ID
 
         // --- FIREBASE SYNC FUNCTIONS ---
         function initApp() {
             updateStatusTime();
             loadLogsFromFirebase(); 
+            setupNetworkListener(); // NEW: Setup network status check
+        }
+        
+        // NEW: Network Status Listener
+        function setupNetworkListener() {
+            window.addEventListener('offline', () => {
+                document.getElementById('networkWarning').style.display = 'flex';
+            });
+            window.addEventListener('online', () => {
+                hideNetworkWarning();
+            });
+            // Initial check
+            if (!navigator.onLine) {
+                document.getElementById('networkWarning').style.display = 'flex';
+            }
+        }
+        
+        function hideNetworkWarning() {
+            document.getElementById('networkWarning').style.display = 'none';
         }
 
-        // Updated for real file download
+        // Real file download helper
         function downloadFile(url, filename) {
             if(!url) { showGridToast("ERROR: NO DATA LINK"); return; }
-            const a = document.createElement('a');
-            a.href = url;
-            a.target = '_blank';
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            showGridToast("DOWNLOADING: " + filename.toUpperCase());
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(blobUrl);
+                    document.body.removeChild(a);
+                    showGridToast("SECURED: " + filename.toUpperCase());
+                })
+                .catch(() => showGridToast("DOWNLOAD ERROR"));
+        }
+        
+        // --- FUNCTION: DOWNLOAD TEXT CONTENT ---
+        function downloadContent(content, filename) {
+            if (!content) {
+                showGridToast("ERROR: NO TEXT CONTENT TO DOWNLOAD");
+                return;
+            }
+            // Sanitize rich-text content for plain text download (removes HTML tags)
+            const plainText = new DOMParser().parseFromString(content, 'text/html').body.textContent;
+            
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(plainText));
+            element.setAttribute('download', filename + "_content.txt");
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            showGridToast("CONTENT DOWNLOADED: " + filename);
+        }
+        // --- END DOWNLOAD TEXT FUNCTION ---
+
+        // --- NEW: DELETE CONFIRMATION LOGIC ---
+        let pendingDeleteData = null;
+        
+        function openDeleteConfirmModal(docId, fileUrl, itemId) {
+            if (!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+            
+            pendingDeleteData = { docId, fileUrl };
+            document.getElementById('delete-modal-title').innerText = `AUTHORIZE DATA TERMINATION: ${itemId}`;
+            
+            document.getElementById('delete-modal-confirm-btn').onclick = function() {
+                executeDelete(pendingDeleteData.docId, pendingDeleteData.fileUrl);
+                closeDeleteConfirmModal();
+            };
+            
+            document.getElementById('deleteConfirmModal').style.display = 'flex';
+        }
+        
+        function closeDeleteConfirmModal() {
+            document.getElementById('deleteConfirmModal').style.display = 'none';
+            pendingDeleteData = null;
         }
 
+        function executeDelete(docId, fileUrl) {
+            // 1. Delete file from Storage (if fileUrl exists and is a Firebase URL)
+            if (fileUrl && fileUrl.includes("firebasestorage.googleapis.com")) {
+                try {
+                    const fileRef = storage.refFromURL(fileUrl);
+                    fileRef.delete().then(() => {
+                        showGridToast(`STORAGE: File Deleted (${docId})`);
+                    }).catch((err) => {
+                        showGridToast(`STORAGE WARNING: Could not delete file: ${err.code}`);
+                    });
+                } catch (e) {
+                    showGridToast("STORAGE ERROR: Invalid file reference for deletion.");
+                }
+            }
+
+            // 2. Delete document from Firestore
+            db.collection("silentgrid_logs").doc(docId).delete().then(() => {
+                showGridToast("TRANSMISSION DELETED: " + docId);
+            }).catch((err) => {
+                showGridToast("DELETE ERROR: " + err.message);
+            });
+        }
+        // --- END DELETE LOGIC ---
+        
+        function deleteLog(docId, fileUrl, itemId) { // FIX: Renamed old deleteLog to openDeleteConfirmModal for consistency
+            openDeleteConfirmModal(docId, fileUrl, itemId);
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editLogModal').style.display = 'none';
+            currentEditingDocId = null;
+        }
+
+        function openEditModal(docId, currentId, currentCategory, currentContent) {
+            if (!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+            currentEditingDocId = docId;
+            document.getElementById('edit-log-id').value = currentId;
+            document.getElementById('edit-log-category').value = currentCategory;
+            // The notebook content is saved as rich HTML, but the edit modal is a simple textarea. 
+            // We strip HTML tags to show only text for simple editing, as full rich text editing here is complex.
+            const plainContent = new DOMParser().parseFromString(currentContent, 'text/html').body.textContent;
+            document.getElementById('edit-log-content').value = plainContent;
+            document.getElementById('editLogModal').style.display = 'flex';
+            
+            // Set up the save button action
+            document.getElementById('edit-save-btn').onclick = function() {
+                saveEdit(docId);
+            };
+        }
+
+        function saveEdit(docId) {
+            const newId = document.getElementById('edit-log-id').value;
+            const newCategory = document.getElementById('edit-log-category').value;
+            
+            const originalEntry = globalLogData.find(item => item.docId === docId);
+            let newContent = document.getElementById('edit-log-content').value;
+
+            if (originalEntry && !originalEntry.fileUrl) {
+                // If it was a Notebook entry (no file URL), re-wrap content for the rich editor to handle line breaks as paragraphs
+                newContent = "<p>" + newContent.replace(/\n/g, '</p><p>') + "</p>";
+            } 
+            
+            if (!newId) { showGridToast("ERROR: File ID cannot be empty."); return; }
+
+            // Update the Firestore document
+            db.collection("silentgrid_logs").doc(docId).update({
+                id: newId,
+                category: newCategory,
+                content: newContent,
+            }).then(() => {
+                showGridToast("DATA LOG UPDATED: " + newId);
+                closeEditModal();
+            }).catch((err) => {
+                showGridToast("UPDATE ERROR: " + err.message);
+            });
+        }
+
+        // --- UPDATED MAIN LOAD FUNCTION ---
         function loadLogsFromFirebase() {
             db.collection("silentgrid_logs").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
                 const table = document.getElementById('history-body');
                 table.innerHTML = ""; 
                 globalLogData = [];   
+                
+                let latestNote = null; // Track latest Notebook entry
 
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const dateObj = data.timestamp ? data.timestamp.toDate() : new Date();
+                    
+                    // Escape single quotes for use in function call arguments
+                    const contentForArg = data.content ? data.content.replace(/'/g, "\\'") : '';
 
-                    globalLogData.push({
+                    const logEntry = {
+                        docId: doc.id, // Store doc ID for delete/edit
                         id: data.id,
                         category: data.category,
                         content: data.content,
                         fileUrl: data.fileUrl,
+                        fileName: data.fileName, // Added fileName for better download name
                         date: dateObj
-                    });
+                    };
+                    globalLogData.push(logEntry);
+                    
+                    // Identify the latest Notebook entry
+                    if (!data.fileUrl && data.content) { // Check if it's a Notebook entry (no fileUrl, has content)
+                        if (!latestNote || dateObj > latestNote.date) {
+                            latestNote = { ...logEntry, date: dateObj };
+                        }
+                    }
+
 
                     const row = document.createElement('tr');
-                    const downloadBtn = data.fileUrl 
-                        ? `<a class="dl-link" onclick="downloadFile('${data.fileUrl}', '${data.id}')">DOWNLOAD</a>`
-                        : `<a class="dl-link" style="opacity:0.5; cursor:not-allowed;">NO FILE</a>`;
+                    
+                    // Download File Button: Visible only if fileUrl exists
+                    const downloadFileBtn = data.fileUrl 
+                        ? `<a class="dl-link" onclick="downloadFile('${data.fileUrl}', '${data.fileName || data.id}')"><i class="fas fa-download"></i> DL FILE</a>`
+                        : `<a class="dl-link" style="opacity:0.3; cursor:default; background:#333;"><i class="fas fa-ban"></i> N/A</a>`;
+                    
+                    // Download Content Button: Visible only if content exists
+                    const downloadContentBtn = data.content
+                        ? `<a class="dl-link" onclick="downloadContent('${contentForArg}', '${data.id}')" style="background:#2a2a2a; margin-left: 5px;"><i class="fas fa-file-alt"></i> DL TEXT</a>` // New button
+                        : `<a class="dl-link" style="opacity:0.3; cursor:default; margin-left: 5px; background:#333;"><i class="fas fa-file-alt"></i> NO TEXT</a>`;
+
+                    // Edit Button (uses escaped content)
+                    const editBtn = `<a class="dl-link edit-btn" onclick="openEditModal('${doc.id}', '${data.id}', '${data.category}', '${contentForArg}')" style="margin-left: 5px;"><i class="fas fa-edit"></i> EDIT</a>`;
+                    
+                    // Delete Button (FIX: Calls new delete confirmation modal)
+                    const deleteBtn = `<a class="dl-link" onclick="deleteLog('${doc.id}', '${data.fileUrl || ''}', '${data.id}')" style="background:#ff0000; margin-left: 5px;"><i class="fas fa-trash-alt"></i> DEL</a>`;
+
 
                     row.innerHTML = `
-                        <td><div class="col-topic"><span class="status-circle status-verified"></span><a href="#">${data.id}</a></div></td>
+                        <td><div class="col-topic"><span class="status-circle status-verified"></span><a href="#" onclick="loadNotebookEntry('${doc.id}')">${data.id}</a></div></td>
                         <td><span class="col-category">[ ${data.category} ]</span></td>
                         <td style="color:#00ff41; font-weight:bold; font-size:10px;">VERIFIED</td>
                         <td>#${doc.id.substring(0,4).toUpperCase()}</td>
                         <td style="color:#e6db74;">SYSTEM</td>
-                        <td>${downloadBtn}</td>
+                        <td>${downloadFileBtn} ${downloadContentBtn} ${editBtn} ${deleteBtn}</td> <!-- COMBINED ACTION BUTTONS -->
                         <td>${dateObj.toLocaleDateString()}<br>by ADMIN</td>
                     `;
                     table.appendChild(row);
                 });
+                
+                // Load latest note content into the Notebook editor
+                if (latestNote) {
+                    currentNotebookDocId = latestNote.docId; 
+                    document.getElementById('notebook-title').value = latestNote.id;
+                    document.getElementById('notebook-category').value = latestNote.category;
+                    document.getElementById('notebook-cat-label').innerText = 'Classification: ' + latestNote.category;
+                    document.getElementById('rich-editor').innerHTML = latestNote.content;
+                } else if (!currentNotebookDocId) {
+                    // Ensure defaults are set if no notes exist
+                    document.getElementById('notebook-title').value = "";
+                    document.getElementById('rich-editor').innerHTML = "<p>Write your secure notes here...</p>";
+                }
             });
         }
+        
+        // --- NEW FUNCTION: LOAD NOTEBOOK ENTRY ---
+        function loadNotebookEntry(docId) {
+            const entry = globalLogData.find(item => item.docId === docId);
+            if (entry) {
+                currentNotebookDocId = entry.docId; // FIX: Set current doc ID when loading from history for proper updating
+                document.getElementById('notebook-title').value = entry.id;
+                document.getElementById('notebook-category').value = entry.category;
+                document.getElementById('notebook-cat-label').innerText = 'Classification: ' + entry.category;
+                document.getElementById('rich-editor').innerHTML = entry.content; // Load rich content
+                showPage('notebook-section');
+                showGridToast("NOTEBOOK: Entry loaded - " + entry.id);
+            } else {
+                showGridToast("ERROR: Notebook Entry not found in cache.");
+            }
+        }
+        // --- END NEW FUNCTION ---
 
         function toggleDashboard(show) {
             const dash = document.getElementById('homeDashboard');
@@ -1976,6 +2339,7 @@
             openCommsWindow(category, event.currentTarget);
         }
 
+        // --- UPDATED COMMS WINDOW FUNCTION ---
         function openCommsWindow(category, triggerElement) {
             const win = document.getElementById('commsSmallWindow');
             const title = document.getElementById('commsWindowTitle');
@@ -1984,20 +2348,39 @@
             win.style.top = rect.top + 'px';
             win.style.left = (rect.right + 10) + 'px';
             title.innerText = "DATA RECORD: " + category.toUpperCase();
+            
+            // Filter using the docId which is now in globalLogData
             const filteredData = globalLogData.filter(item => item.category === category);
             
             if (filteredData.length === 0) {
                 content.innerHTML = `<div style="text-align:center; padding:80px 10px; color:#666;"><i class="fas fa-ban" style="font-size:30px; margin-bottom:15px;"></i><br><span style="font-size:12px; letter-spacing:1px;">NO DATA RECORDS FOUND</span></div>`;
             } else {
-                let html = '<table style="width:100%; border-collapse:collapse; font-size:10px;"><thead><tr style="border-bottom:1px solid #444; color:#888;"><th style="text-align:left; padding:8px 5px;">ID</th><th style="text-align:left; padding:8px 5px;">DATE</th><th style="text-align:right; padding:8px 5px;">ACTION</th></tr></thead><tbody>';
+                let html = '<table style="width:100%; border-collapse:collapse; font-size:10px;"><thead><tr style="border-bottom:1px solid #444; color:#888;"><th style="text-align:left; padding:8px 5px;">ID</th><th style="text-align:left; padding:8px 5px;">DATE</th><th style="text-align:right; padding:8px 5px;">ACTIONS</th></tr></thead><tbody>';
+                
                 filteredData.forEach((item) => {
-                    const dlBtn = item.fileUrl 
-                        ? `<a class="dl-link" onclick="downloadFile('${item.fileUrl}', '${item.id}')">SAVE</a>`
+                    // Escape single quotes for use in function call arguments
+                    const contentForArg = item.content ? item.content.replace(/'/g, "\\'") : '';
+                    
+                    // Download File Button: Visible only if fileUrl exists
+                    const dlFileBtn = item.fileUrl 
+                        ? `<a class="dl-link" onclick="downloadFile('${item.fileUrl}', '${item.fileName || item.id}')" style="background: #333; border-color: #555;"><i class="fas fa-download"></i> FILE</a>` 
                         : `<span style="color:#444">N/A</span>`;
+                    
+                    // NEW: Download Content Button: Visible only if content exists
+                    const dlContentBtn = item.content
+                        ? `<a class="dl-link" onclick="downloadContent('${contentForArg}', '${item.id}')" style="background:#2a2a2a; margin-left: 5px;"><i class="fas fa-file-alt"></i> TEXT</a>`
+                        : `<span style="color:#444; margin-left: 5px;">NO TEXT</span>`;
+
+                    // Edit Button
+                    const editBtn = `<a class="dl-link edit-btn" onclick="openEditModal('${item.docId}', '${item.id}', '${item.category}', '${contentForArg}')" style="margin-left: 5px;"><i class="fas fa-edit"></i> EDIT</a>`;
+                    
+                    // Delete Button
+                    const deleteBtn = `<a class="dl-link" onclick="deleteLog('${item.docId}', '${item.fileUrl || ''}', '${item.id}')" style="background:#ff0000; margin-left: 5px;"><i class="fas fa-trash-alt"></i> DEL</a>`;
+
                     html += `<tr style="border-bottom:1px solid #222;">
                         <td style="color:#a00000; padding:8px 5px; font-weight:bold;">${item.id}</td>
                         <td style="color:#666; padding:8px 5px;">${item.date.toLocaleDateString()}</td>
-                        <td style="text-align:right; padding:8px 5px;">${dlBtn}</td>
+                        <td style="text-align:right; padding:8px 5px;">${dlFileBtn} ${dlContentBtn} ${editBtn} ${deleteBtn}</td> <!-- ACTION BUTTONS -->
                     </tr>`;
                 });
                 html += '</tbody></table>';
@@ -2010,9 +2393,13 @@
 
         window.addEventListener('click', function(e) {
             if (!e.target.closest('.category-container')) {
-                document.querySelectorAll('.category-list').forEach(l => { if (l.id !== 'comms-cat-list') { l.classList.remove('active'); } });
+                document.querySelectorAll('.category-list').forEach(l => { if (l.id !== 'comms-cat-list') l.classList.remove('active'); });
             }
             if (!e.target.closest('#commsSmallWindow') && !e.target.closest('#secure-comms-section .category-list')) { closeCommsWindow(); }
+            if (!e.target.closest('#editLogModal') && !e.target.closest('.dl-link') && !e.target.closest('#deleteConfirmModal') && !e.target.closest('.modal-btn')) { 
+                closeEditModal(); 
+                closeDeleteConfirmModal(); // Close delete modal too
+            }
         });
 
         function triggerAccessDenied() { document.getElementById('access-denied-popup').style.display = 'flex'; }
@@ -2140,20 +2527,38 @@
         function startNoteTransmission() {
             const noteTitle = document.getElementById('notebook-title').value || "NOTEBOOK_ENTRY";
             const category = document.getElementById('notebook-category').value;
-            const noteContent = document.getElementById('rich-editor').innerText;
-
-            db.collection("silentgrid_logs").add({
-                id: noteTitle,
-                category: category,
-                content: noteContent,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                document.getElementById('uploadSuccessModal').style.display = 'flex';
-                document.getElementById('notebook-title').value = "";
-                document.getElementById('rich-editor').innerHTML = "<p>Write your secure notes here...</p>";
-            }).catch(err => {
-                showGridToast("TRANSMISSION ERROR: " + err.message);
-            });
+            const noteContent = document.getElementById('rich-editor').innerHTML; 
+            
+            // FIX: Use currentNotebookDocId to determine if updating or adding new
+            if (currentNotebookDocId) {
+                // UPDATE existing entry
+                db.collection("silentgrid_logs").doc(currentNotebookDocId).update({
+                    id: noteTitle, 
+                    category: category,
+                    content: noteContent,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                }).then(() => {
+                    showGridToast("NOTEBOOK ENTRY UPDATED: " + noteTitle);
+                    document.getElementById('uploadSuccessModal').style.display = 'flex';
+                }).catch(err => {
+                    showGridToast("UPDATE ERROR: " + err.message);
+                });
+            } else {
+                // UPLOAD as new entry
+                db.collection("silentgrid_logs").add({
+                    id: noteTitle,
+                    category: category,
+                    content: noteContent,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).then((docRef) => {
+                    // Set the current ID for future edits
+                    currentNotebookDocId = docRef.id; 
+                    showGridToast("NOTEBOOK ENTRY UPLOADED: " + noteTitle);
+                    document.getElementById('uploadSuccessModal').style.display = 'flex';
+                }).catch(err => {
+                    showGridToast("TRANSMISSION ERROR: " + err.message);
+                });
+            }
         }
 
         function updateFileList() {
@@ -2170,12 +2575,13 @@
             document.getElementById('uploadConfirmModal').style.display = 'flex';
         };
 
-        // --- UPDATED: CLOUD FILE UPLOAD LOGIC ---
-        async function executeDataUploadTransmission() {
+        // --- FIXED: CLOUD FILE UPLOAD LOGIC ---
+        function executeDataUploadTransmission() {
             const fileInput = document.getElementById('fileInput');
             const fileID = document.getElementById('hist_id').value;
             const category = document.getElementById('upload-category').value;
             const description = document.getElementById('hist_desc').value;
+            const progContainer = document.getElementById('progContainer');
             const progBar = document.getElementById('progBar');
             
             if (fileInput.files.length === 0) {
@@ -2184,7 +2590,12 @@
             }
 
             const file = fileInput.files[0];
-            const storageRef = storage.ref('silent_grid/' + Date.now() + "_" + file.name);
+            const storagePath = 'silent_grid/' + Date.now() + "_" + file.name;
+            const storageRef = storage.ref(storagePath);
+            
+            progContainer.style.display = 'block';
+            progBar.style.width = '0%';
+
             const uploadTask = storageRef.put(file);
 
             uploadTask.on('state_changed', 
@@ -2194,18 +2605,23 @@
                 }, 
                 (error) => {
                     showGridToast("UPLOAD FAILED: " + error.message);
+                    progContainer.style.display = 'none';
                 }, 
                 () => {
                     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        // Creating a proper database entry for the uploaded content
                         db.collection("silentgrid_logs").add({
                             id: fileID,
                             category: category,
                             content: description,
-                            fileUrl: downloadURL, // Cloud link save ho raha hai
+                            fileUrl: downloadURL, 
+                            fileName: file.name,
+                            fileType: file.type,
+                            fileSize: file.size,
                             timestamp: firebase.firestore.FieldValue.serverTimestamp()
                         }).then(() => {
+                            progContainer.style.display = 'none';
                             document.getElementById('uploadSuccessModal').style.display = 'flex';
-                            progBar.style.width = '0%';
                             resetUploadForm();
                         });
                     });
@@ -2226,6 +2642,50 @@
             if(clock) clock.textContent = `:: ${now.toLocaleTimeString()} ET`;
         }
         setInterval(updateStatusTime, 1000);
+        
+        // --- NOTEBOOK SPECIFIC DOWNLOAD FUNCTIONS (FIXED) ---
+        function downloadNoteAsPDF() {
+            // FIX: Use current rich-editor content
+            const content = document.getElementById('rich-editor').innerText;
+            if (content.trim() === "Write your secure notes here..." || content.trim() === "" || content.trim() === "<p>Write your secure notes here...</p>") {
+                showGridToast("ERROR: NOTEBOOK IS EMPTY");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const title = document.getElementById('notebook-title').value || 'Secure_Note_Entry';
+            
+            doc.setFontSize(18);
+            doc.text(title, 10, 10);
+            
+            doc.setFontSize(12);
+            // Use innerText for conversion to PDF
+            const lines = doc.splitTextToSize(content, 180);
+            doc.text(lines, 10, 20);
+            
+            doc.save(title + ".pdf");
+            showGridToast("PDF DOWNLOADED: " + title);
+        }
+        
+        function downloadNoteAsTXT() {
+            // FIX: Use current rich-editor content
+            const content = document.getElementById('rich-editor').innerText;
+            if (content.trim() === "Write your secure notes here..." || content.trim() === "" || content.trim() === "<p>Write your secure notes here...</p>") {
+                showGridToast("ERROR: NOTEBOOK IS EMPTY");
+                return;
+            }
+
+            const title = document.getElementById('notebook-title').value || 'Secure_Note_Entry';
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', title + ".txt");
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            showGridToast("TXT DOWNLOADED: " + title);
+        }
     </script>
 </body>
 </html>
