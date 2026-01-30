@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -248,7 +249,7 @@
         .secret-header {
             background: 
                 linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                url('https://www.maryville.edu/mpress/wp-content/uploads/sites/64/2016/05/cybersecurity.H.jpg'),
+                url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPvIa3GcpuSFFz-bYNAZIbNXXQkkZ6jgcJ3pM-fZ1nOFylpNxus4-kYH47wj_LI-JSUPAOKXo5hN28A9w5hUmSBPWFk3COqIw1WNr_aevx9LopA0q1HIOnmZf_xA_HzKN4SsIAcQnl1lkgvLT7n4FwaACwsFnbL-R-fy1spT-DSceKrGsQ9erz8RO0IIYe/s736/c5790720-08f0-4ea0-820a-24520d636481.jpeg'),
                 linear-gradient(135deg, #222222 0%, #1a1a1a 100%);
             background-size: cover;
             background-position: center;
@@ -440,6 +441,9 @@
             max-height: 300px;
             overflow-y: auto; 
         }
+        
+        /* DELETED: Removed MODIFIED: NEW RULE for OSINT to show all at once (no internal scrolling) */
+
 
         .category-list::-webkit-scrollbar {
             width: 8px;
@@ -472,6 +476,31 @@
             color: #ffffff;
             padding-left: 20px;
         }
+        
+        /* NEW RULE FOR NETWORK MAP PERMANENT LISTS (Fix for image display) */
+        .map-list-permanent {
+            position: relative !important; 
+            display: block !important;    
+            max-height: none !important;  
+            overflow-y: hidden !important;
+            border: 1px solid #333 !important; 
+            border-top: none !important;
+            box-shadow: none !important;
+            margin-top: -1px !important; 
+            width: 100% !important; 
+            background: rgba(10, 10, 10, 0.95) !important;
+            border-radius: 0 0 4px 4px; /* Optional: adds subtle curve to the bottom */
+            /* FIX: Added top: 0 to ensure list starts right after the header */
+            top: 0 !important; 
+        }
+        
+        /* Ensure no double border where trigger meets list */
+        #network-map-section .category-container .category-trigger {
+            border-bottom: 0 !important; /* Remove bottom border from trigger */
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
 
         /* --- SPECIAL STYLES FOR SECURE COMMS DROPDOWN (SMALLER) --- */
         #secure-comms-section .category-container {
@@ -502,7 +531,7 @@
             display: block !important;    
             max-height: none !important;  
             overflow-y: visible !important;
-            border: 1px solid #333;
+            border: 1樣子 solid #333;
             box-shadow: none;
             margin-top: -1px; 
             opacity: 1 !important;
@@ -528,6 +557,61 @@
             font-size: 9px;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
         }
+        
+        /* NEW STYLES FOR OSINT ICONS */
+        #network-map-section .comms-logo {
+            border: 1px solid #004d99; /* Blue border for OSINT */
+            background: #000;
+        }
+        
+        /* Added: Specific styles to force all map lists to be permanently open and smaller */
+        /* NOTE: These styles are now largely superseded by the new dynamic list structure, but kept for context. */
+        #network-map-section .category-container .category-trigger {
+            background: #000; /* Revert to generic dark */
+            border-left: 3px solid #a00000; /* Revert to generic red */
+            padding: 12px 15px; 
+            font-size: 11px; 
+            cursor: pointer; 
+            pointer-events: auto; /* Re-enable pointer events for the dropdown trigger */
+            border-bottom: 1px solid #333; /* Re-add bottom border if it's a list trigger */
+        }
+        #network-map-section .category-container .category-trigger i {
+            display: inline-block; /* Re-enable dropdown arrow */
+        }
+        
+        /* MODIFIED: Generic selector to apply smaller size to all lists in network map section */
+        #network-map-section .category-list li {
+            padding: 8px 10px; /* Reduced vertical padding from 12px to 8px */
+            font-size: 9px;   /* Reduced font size from 10px to 9px */
+        }
+        
+        /* Ensure the hover styles are available for the new dynamic list. */
+        #network-map-section #network-map-osint-list li:hover { /* Updated ID */
+             background: #2a0000; /* Default hover red */
+             color: #ffffff;
+             padding-left: 20px;
+        }
+        /* Specific OSINT blue hover, as seen in the original image list. */
+        #network-map-section #network-map-osint-list li:hover {
+            background: #0066cc; /* Overriding to blue */
+            color: #ffffff;
+            padding-left: 20px;
+        }
+        
+        /* Special style for the OSINT List Trigger to match the image's blue bar */
+        #network-map-section #osint-list-trigger {
+            background: #004d99 !important; 
+            border-left: 3px solid #0066cc !important; 
+            border-bottom: 0 !important; 
+            cursor: default !important;
+            pointer-events: none !important;
+            font-size: 11px !important;
+            color: white !important;
+            padding: 12px 15px !important;
+            display: flex;
+            justify-content: flex-start; /* Aligned left, no icon needed */
+        }
+
 
         /* --- UPDATED BIGGER WINDOW FOR RECORDS --- */
         #commsSmallWindow {
@@ -554,7 +638,7 @@
         /* --- NEW WINDOW LOWER RIGHT STYLE (UPDATED: BIGGER & TRANSPARENT) --- */
         #comms-monitor-window {
             position: fixed;
-            bottom: 20px;
+            bottom: 220px; /* Adjusted to prevent overlap */
             right: 20px;
             width: 600px; /* Increased Width */
             height: 350px; /* Added Height */
@@ -676,8 +760,11 @@
         .editor-modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(5px);
             z-index: 1000;
             justify-content: center;
@@ -931,7 +1018,7 @@
         .upload-form input[type="text"], 
         .upload-form textarea {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 0, 0.05);
             border: 1px solid #444;
             border-left: 2px solid #a00000;
             color: #ffffff;
@@ -1019,31 +1106,75 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { transform: translateY(0); opacity: 1; } }
 
+        /* DATA HISTORY - PROFESSIONAL BLACK/GRAY THEME */
         #history-section {
             display: none;
-            background-color: #000;
+            background-color: #0b0b0b; /* Deep matte black background */
             border: 1px solid #333;
             border-radius: 4px;
             overflow: hidden;
             margin-top: 20px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Added depth */
         }
 
         .history-header-bar {
-            background: linear-gradient(to bottom, #444, #111);
-            padding: 8px 15px;
-            border-bottom: 2px solid #a00000;
+            /* Professional Dark Gray Gradient instead of flat color */
+            background: linear-gradient(180deg, #1f1f1f 0%, #111111 100%);
+            padding: 10px 15px;
+            border-bottom: 2px solid #a00000; /* Kept red accent line for theme consistency */
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .history-header-bar h2 { margin: 0; color: #a00000; font-size: 11px; text-transform: uppercase; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */ }
+        .history-header-bar h2 { 
+            margin: 0; 
+            color: #d0d0d0; /* Changed to soft gray text */
+            font-size: 11px; 
+            text-transform: uppercase; 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; 
+            letter-spacing: 2px;
+        }
 
-        .history-table { width: 100%; border-collapse: collapse; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* CODING FONT */ }
-        .history-table th { background-color: #900000; color: #ffffff; font-size: 9px; padding: 10px 8px; text-align: left; border: 1px solid #000; }
-        .history-table td { background-color: #1a1a1a; color: #aaa; padding: 12px 10px; border: 1px solid #111; font-size: 10px; }
-        .history-table tr:nth-child(even) td { background-color: #161616; }
+        .history-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; 
+        }
+
+        /* TABLE HEADERS - Professional Dark Gray */
+        .history-table th { 
+            background-color: #1a1a1a; /* Changed from Red to Dark Gray */
+            color: #e0e0e0; /* Light gray text */
+            font-size: 9px; 
+            padding: 12px 10px; 
+            text-align: left; 
+            border: 1px solid #2a2a2a; /* Subtle border */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* TABLE CELLS - Unique Black/Gray Tones */
+        .history-table td { 
+            background-color: #0e0e0e; /* Very dark unique black */
+            color: #b0b0b0; /* Soft gray text */
+            padding: 12px 10px; 
+            border: 1px solid #1f1f1f; /* Darker borders */
+            font-size: 10px; 
+            transition: background-color 0.2s ease;
+        }
+
+        /* ZEBRA STRIPING - Slightly lighter gray */
+        .history-table tr:nth-child(even) td { 
+            background-color: #141414; 
+        }
+
+        /* HOVER EFFECT - Professional Highlight */
+        .history-table tr:hover td {
+            background-color: #1f1f1f; /* Highlight row on hover */
+            color: #ffffff;
+        }
 
         .status-verified { border-color: #ff3333; background: radial-gradient(circle, #ff3333 30%, transparent 70%); }
         .status-circle { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #555; display: inline-block; }
@@ -1241,7 +1372,10 @@
         /* NEW STYLES FOR GENERAL WARNINGS */
         #networkWarning, #deleteConfirmModal {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(5px);
             z-index: 4000;
@@ -1257,8 +1391,8 @@
         }
         
         #networkWarning .system-modal i, #deleteConfirmModal .system-modal i {
+            color: #a00000; /* Faded/darker red icon */
             font-size: 40px; 
-            color: #ff0000; 
             margin-bottom: 15px;
             display: block;
         }
@@ -1392,10 +1526,215 @@
 
         @keyframes pulseText { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
+        /* --- ADDED MEDIA QUERY FOR NETWORK MAP LIST STACKING --- */
+        @media (max-width: 600px) {
+            #network-map-section .category-container {
+                flex: 1 1 100% !important; /* Forces one column on small screens */
+            }
+        }
+        
+        /* --- NEW STYLE FOR NETWORK MAP SECTION TO FIX LAYOUT --- */
+        #network-map-section {
+            display: flex;
+            flex-direction: column; /* Stacks children vertically */
+        }
+
+        /* --- EXTERNAL VIEWER MODAL STYLE MODIFICATION --- */
+        
+        /* MODIFIED: Overlay transparency and BLUR REMOVAL - FIX 1 (External View) */
+        #externalViewModal.editor-modal-overlay {
+            background: rgba(0,0,0,0.05) !important; /* Very low opacity for minimal darkening */
+            backdrop-filter: none !important; /* BLUR REMOVAL */
+        }
+        
+        #externalViewModal .editor-modal {
+            /* 1. Size change: Max-width 700px, Height 70% of viewport, slightly bigger than commsSmallWindow (500px width) */
+            max-width: 600px !important; 
+            width: 600px !important; 
+            height: 60% !important; 
+            padding: 0;
+            
+            /* 2. Overlap position: Right side, slightly up from the center */
+            position: fixed !important;
+            top: 20% !important; 
+            right: 15px !important; 
+            left: unset !important; 
+            transform: none !important; 
+
+            /* 3. Background transparency (using a darker shade for readability of modal header/footer) */
+            background: #101010; /* Semi-transparent dark background for the modal box itself */
+            
+            border: 1px solid #333; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            animation: modalSlide 0.3s ease-out; 
+            z-index: 5000; 
+        }
+        
+        /* MODIFIED: Modal Body for full background visibility */
+        #externalViewModal .editor-modal .modal-body {
+            height: calc(100% - 30px) !important; 
+            background: transparent; /* Ensure modal body itself is transparent to show iframe/background behind */
+            padding: 0;
+        }
+        
+        /* MODIFIED: Ensure iframe fills the entire body and is visible */
+        #externalViewModal #externalFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000; /* Dark background for the iframe space itself */
+        }
+        /* --- END EXTERNAL VIEWER MODAL STYLE MODIFICATION --- */
+
+        /* --- NEW STYLES FOR SECURE COMMS TABLE (MATCHING UPLOADED IMAGE) --- */
+        .comms-table-wrapper {
+            width: 100%;
+            background-color: #0b0b0b;
+            border: 1px solid #333;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        /* The Top Tabs (ALL STUDIES, CT BODY...) */
+        .comms-table-tabs {
+            display: flex;
+            background-color: #000;
+            border-bottom: 1px solid #333;
+            padding: 0;
+        }
+        .comms-tab {
+            padding: 8px 15px;
+            color: #888;
+            border-right: 1px solid #333;
+            cursor: default;
+            font-weight: bold;
+        }
+        .comms-tab.active {
+            color: #e0e0e0;
+            background: #1a1a1a;
+        }
+
+        /* The Table Headers */
+        .comms-grid-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comms-grid-table th {
+            background-color: #111;
+            color: #aaa;
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid #333;
+            border-right: 1px solid #222;
+            font-weight: normal;
+            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 0.5px;
+        }
+
+        /* The Table Rows */
+        .comms-grid-table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #1a1a1a;
+            border-right: 1px solid #1a1a1a;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        /* Even/Odd Row Styling (Zebra Striping) */
+        .comms-grid-table tr:nth-child(even) {
+            background-color: #161616;
+        }
+        .comms-grid-table tr:nth-child(odd) {
+            background-color: #0e0e0e;
+        }
+
+        /* HOVER EFFECT - THE RED BAR FROM IMAGE */
+        .comms-grid-table tr:hover {
+            background-color: #d32f2f !important; /* The Red Highlight */
+            color: #ffffff !important;
+        }
+        .comms-grid-table tr:hover td {
+            color: #ffffff !important;
+            border-color: #d32f2f;
+        }
+
+        /* Specific Column Colors before hover */
+        .col-id { color: #888; }
+        .col-status-v { color: #ccc; }
+        .col-status-nv { color: #888; }
+
+        /* Override previous container width to fit the table */
+        #secure-comms-section .category-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        /* --- NEW ANIMATED SIGNAL LOADER STYLES --- */
+        .comms-loader {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .comms-loader i {
+            color: #a00000;
+            font-size: 24px;
+            z-index: 10;
+            text-shadow: 0 0 10px rgba(160, 0, 0, 0.5);
+        }
+        .comms-loader .ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #a00000;
+            border-bottom-color: #a00000;
+            animation: spin-ring 2s linear infinite;
+        }
+        .comms-loader .ring:nth-child(2) {
+            width: 70%;
+            height: 70%;
+            border-color: transparent;
+            border-left-color: #ff0000;
+            border-right-color: #ff0000;
+            animation: spin-ring-reverse 1.5s linear infinite;
+        }
+        @keyframes spin-ring { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-ring-reverse { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body onload="initApp()">
+
+    <!-- NEW: SYSTEM LOCKED POPUP WINDOW -->
+    <div id="systemLockedPopup" class="editor-modal-overlay">
+        <div class="system-modal" style="border-color: #ff0000;">
+            <div class="modal-header" style="background: #a00000;">
+                <span><i class="fas fa-lock"></i> SYSTEM ENCRYPTION ACTIVE</span>
+                <i class="fas fa-times" onclick="closeLockedPopup()" style="cursor:pointer"></i>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <i class="fas fa-user-lock" style="font-size: 50px; color: #ff0000; margin-bottom: 20px;"></i>
+                <h2 style="color: #ff0000; letter-spacing: 2px;">ACCESS RESTRICTED</h2>
+                <p style="color: #ccc; margin-bottom: 5px;">ROOT PRIVILEGES REQUIRED FOR THIS ACTION.</p>
+                <p style="color: #888; font-size: 10px; margin-bottom: 25px;">PLEASE ACTIVATE "GLOBAL_NET_ACTIVITY.EXE" IN THE TERMINAL.</p>
+                <div class="modal-actions">
+                    <button class="modal-btn btn-cancel" onclick="closeLockedPopup()">CANCEL</button>
+                    <button class="modal-btn btn-confirm" style="background: #a00000;" onclick="toggleDashboard(true); closeLockedPopup();">OPEN TERMINAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- NEW: NETWORK WARNING POPUP (MODIFIED FOR TECHNICAL LOOK) -->
     <div id="networkWarning" class="editor-modal-overlay">
@@ -1509,17 +1848,34 @@
                     <input type="text" class="modal-input" id="edit-log-id" placeholder="Enter new File ID...">
                     
                     <span class="modal-label">CATEGORY</span>
-                    <select class="modal-input" id="edit-log-category" style="color: #fff;">
-                        <option value="General">General</option>
-                        <option value="Artificial intelligence">Artificial intelligence</option>
-                        <option value="Cybersecurity">Cybersecurity</option>
-                        <option value="Codes">Codes</option>
-                        <option value="Victim">Victim</option>
-                        <option value="Thrate">Thrate</option>
-                        <option value="Report">Report</option>
-                        <option value="Data">Data</option>
-                        <option value="Informations">Informations</option>
-                    </select>
+                    <!-- NEW CATEGORY DROPDOWN STRUCTURE -->
+                    <div class="category-container">
+                        <input type="hidden" id="edit-log-category" value="General">
+                        <div class="category-trigger" onclick="toggleCustomDropdown('edit-cat-list')" style="border-left: 3px solid #000;">
+                            <span id="edit-cat-label">Classification: General</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <ul id="edit-cat-list" class="category-list">
+                            <li onclick="selectCategory('edit-log', 'General')">General</li>
+                            <li onclick="selectCategory('edit-log', 'Artificial intelligence')">Artificial intelligence</li>
+                            <li onclick="selectCategory('edit-log', 'Cybersecurity')">Cybersecurity</li>
+                            <li onclick="selectCategory('edit-log', 'Codes')">Codes</li>
+                            <li onclick="selectCategory('edit-log', 'Victim')">Victim</li>
+                            <li onclick="selectCategory('edit-log', 'Thrate')">Thrate</li>
+                            <li onclick="selectCategory('edit-log', 'Report')">Report</li>
+                            <li onclick="selectCategory('edit-log', 'Data')">Data</li>
+                            <li onclick="selectCategory('edit-log', 'Informations')">Informations</li>
+                            <li onclick="selectCategory('edit-log', 'OSINTA')">OSINTA</li>
+                            <li onclick="selectCategory('edit-log', 'Lost.dir')">Lost.dir</li>
+                            <li onclick="selectCategory('edit-log', 'Log.list')">Log.list</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- NEW: URL Input Section for OSINT -->
+                    <div id="edit-log-url-section" style="display:none; margin-top: 15px;">
+                        <span class="modal-label" style="color: #004d99;"><i class="fas fa-link"></i> URL / EXTERNAL LINK</span>
+                        <input type="text" class="modal-input" id="edit-log-url" placeholder="https://external-resource.com or Onion link">
+                    </div>
                     
                     <span class="modal-label">DESCRIPTION/CONTENT (Text Only)</span>
                     <textarea class="modal-input" id="edit-log-content" rows="4" style="color: #fff;"></textarea>
@@ -1568,6 +1924,21 @@
                 </div>
             </div>
         </div>
+        
+        <!-- NEW: EXTERNAL WEBSITE VIEWER MODAL (Big Window with Iframe) -->
+        <div id="externalViewModal" class="editor-modal-overlay" style="z-index: 5000;">
+            <div class="editor-modal" style="max-width: 90%; width: 900px; height: 90%; padding: 0;">
+                <div class="modal-header">
+                    <span id="externalViewTitle"><i class="fas fa-globe"></i> EXTERNAL NODE CONNECTION</span>
+                    <i class="fas fa-times" onclick="closeExternalViewer()" style="cursor:pointer"></i>
+                </div>
+                <div class="modal-body" style="padding: 0; height: calc(100% - 30px); display: flex;">
+                    <!-- iFrame for the external website -->
+                    <iframe id="externalFrame" style="width: 100%; height: 100%; border: none; background: #000;" loading="eager"></iframe>
+                </div>
+            </div>
+        </div>
+        <!-- END NEW EXTERNAL VIEWER MODAL -->
 
         <div class="container">
             <header class="secret-header">
@@ -1583,10 +1954,10 @@
                 </button>
                 <ul id="dropdownMenu" class="dropdown-menu">
                     <li><a onclick="showPage('default-content')">Home</a></li>
-                    <li><a onclick="showPage('upload-section')">Uplode DATA</a></li>
+                    <li><a onclick="showPage('upload-section')">Uploded NTDATA</a></li> <!-- MODIFIED TEXT -->
                     <li><a onclick="showPage('history-section')">DATA HISTORY</a></li>
                     <li><a onclick="showPage('notebook-section')">notebook [08]</a></li>
-                    <li><a href="#">Network Map</a></li>
+                    <li><a onclick="showPage('network-map-section')">Network Map</a></li>
                     <li><a onclick="showPage('secure-comms-section')">Secure Comms</a></li>
                 </ul>
             </div>
@@ -1618,11 +1989,7 @@
                         <div class="win-box" style="grid-row: span 2;">
                             <div class="win-bar">
                                 <div class="win-title">GLOBAL_NET_ACTIVITY.EXE</div>
-                                <div class="win-controls">
-                                    <div class="win-btn green"></div>
-                                    <div class="win-btn yellow"></div>
-                                    <div class="win-btn red"></div>
-                                </div>
+                                <!-- WIN-CONTROLS REMOVED HERE -->
                             </div>
                             <div class="dash-win-content" style="padding:0;">
                                 <div id="terminal-console">
@@ -1644,9 +2011,6 @@
                         <div class="win-box">
                             <div class="win-bar">
                                 <div class="win-title">ACTIVE_NODES</div>
-                                <div class="win-controls">
-                                    <div class="win-btn green"></div>
-                                </div>
                             </div>
                             <div class="dash-win-content">
                                 <div class="dash-status-row"><span>PROXY-01</span> <span class="dash-status-val" style="color:#00ff41">ONLINE</span></div>
@@ -1660,9 +2024,7 @@
                         <div class="win-box">
                             <div class="win-bar">
                                 <div class="win-title">KERNEL_LOG</div>
-                                <div class="win-controls">
-                                    <div class="win-btn yellow"></div>
-                                </div>
+                                <!-- WIN-CONTROLS REMOVED HERE -->
                             </div>
                             <div class="dash-win-content">
                                 <!-- ADDED ID TO THIS SECTION FOR JS MANIPULATION -->
@@ -1684,112 +2046,98 @@
                         <li>Only verified devices may be used.</li>
                     </ol>
                 </div>
+                
+                <!-- NEW NETWORK MAP / OSINT SECTION -->
+                <div id="network-map-section" style="display:none;">
+                    
+                    <!-- !!! MODIFIED: Reverting to fixed OSINT list structure to match image !!! -->
+                    <div class="date">OSINT [SEARCH ENGINE] CHANNELS</div>
+                    <p>Select a search engine for open-source intelligence gathering:</p>
+                    
+                    <!-- NEW WRAPPER FOR HORIZONTAL LAYOUT -->
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+                        
+                        <!-- 1. OSINT SEARCH ENGINE LIST (Original, max-width removed, flex added) -->
+                        <div class="category-container" style="flex: 1 1 280px; min-width: 250px;">
+                            <!-- The blue header bar from the image -->
+                            <div class="category-trigger" id="osint-list-trigger" style="background: #004d99; border-left: 3px solid #0066cc; border-bottom: 0 !important; cursor: default; pointer-events: none;">
+                                <span id="osint-cat-label" style="font-size: 11px; color: white;">OSINT SEARCH ENGINE LIST</span>
+                            </div>
+                            
+                            <!-- The permanent list for OSINT items -->
+                            <ul id="network-map-osint-list" class="category-list active map-list-permanent" style="position: relative; max-height: none; border: 1px solid #333; margin-top: 0; box-shadow: none;">
+                                <!-- Content will be loaded by JS for OSINT data -->
+                                <li style="opacity:0.5; padding: 8px 10px; font-size: 9px; cursor: default; border-top: none; background: transparent;">LOADING OSINT DATA...</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2. LOST.DIR LIST (NEW) -->
+                        <div class="category-container" style="flex: 1 1 280px; min-width: 250px;">
+                            <div class="category-trigger" id="lost-dir-list-trigger" style="background: #a00000; border-left: 3px solid #ff0000; border-bottom: 0 !important; cursor: default; pointer-events: none;">
+                                <span id="lost-dir-cat-label" style="font-size: 11px; color: white;">LOST.DIR LOGS INDEX</span>
+                            </div>
+                            <ul id="network-map-lost-dir-list" class="category-list active map-list-permanent" style="position: relative; max-height: none; border: 1px solid #333; margin-top: 0; box-shadow: none;">
+                                <!-- Content will be loaded by JS for Lost.dir data -->
+                                <li style="opacity:0.5; padding: 8px 10px; font-size: 9px; cursor: default; border-top: none; background: transparent;">LOADING LOST.DIR DATA...</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 3. LOG.LIST LIST (NEW) -->
+                        <div class="category-container" style="flex: 1 1 280px; min-width: 250px;">
+                            <div class="category-trigger" id="log-list-trigger" style="background: #2a2a2a; border-left: 3px solid #777777; border-bottom: 0 !important; cursor: default; pointer-events: none;">
+                                <span id="log-list-cat-label" style="font-size: 11px; color: white;">LOG.LIST DUMP INDEX</span>
+                            </div>
+                            <ul id="network-map-log-list" class="category-list active map-list-permanent" style="position: relative; max-height: none; border: 1px solid #333; margin-top: 0; box-shadow: none;">
+                                <!-- Content will be loaded by JS for Log.list data -->
+                                <li style="opacity:0.5; padding: 8px 10px; font-size: 9px; cursor: default; border-top: none; background: transparent;">LOADING LOG.LIST DATA...</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- !!! END MODIFIED OSINT LIST STRUCTURE !!! -->
 
-                <!-- NEW SECURE COMMS SECTION - ALWAYS OPEN MENU -->
+
+                    <!-- MESSAGE CONTAINER -->
+                    <div style="border: 1px solid #333; padding: 20px; background: #0a0a0a; text-align:center; clear: both;">
+                        <i class="fas fa-search-dollar" style="font-size: 40px; color: #333; margin-bottom: 10px;"></i>
+                        <p style="color: #666; font-size: 10px;">AWAITING NODE/LINK SELECTION...</p>
+                    </div>
+                </div>
+                <!-- END NEW NETWORK MAP / OSINT SECTION -->
+
+                <!-- NEW SECURE COMMS SECTION (MATCHING UPLOADED IMAGE STYLE) -->
                 <div id="secure-comms-section" style="display:none;">
-                    <div class="date">ENCRYPTED COMM CHANNELS</div>
-                    <p>Select a secure frequency for classified transmission:</p>
+                    <div class="date">ENCRYPTED COMM CHANNELS [GRID VIEW]</div>
+                    <p>Select a secure frequency from the active study list:</p>
                     
                     <div class="category-container">
                         <input type="hidden" id="comms-category" value="Select Channel">
                         
-                        <!-- REMOVED onclick to prevent closing, removed arrow, styled as header -->
-                        <div class="category-trigger">
-                            <span id="comms-cat-label">Select Channel...</span>
-                        </div>
-                        
-                        <!-- ADDED inline style to guarantee it stays open and visible -->
-                        <ul id="comms-cat-list" class="category-list" style="display: block; max-height: none;">
-                            <!-- General -->
-                            <li onclick="selectComms('General', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=GN&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>General</span>
-                                </div>
-                            </li>
-                            <!-- Artificial intelligence -->
-                            <li onclick="selectComms('Artificial intelligence', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=AI&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Artificial intelligence</span>
-                                </div>
-                            </li>
-                            <!-- Cybersecurity -->
-                            <li onclick="selectComms('Cybersecurity', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=CS&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Cybersecurity</span>
-                                </div>
-                            </li>
-                            <!-- Codes -->
-                            <li onclick="selectComms('Codes', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=CD&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Codes</span>
-                                </div>
-                            </li>
-                            <!-- Victim -->
-                            <li onclick="selectComms('Victim', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=VC&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Victim</span>
-                                </div>
-                            </li>
-                            <!-- Thrate -->
-                            <li onclick="selectComms('Thrate', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=TH&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Thrate</span>
-                                </div>
-                            </li>
-                            <!-- Report -->
-                            <li onclick="selectComms('Report', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=RP&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Report</span>
-                                </div>
-                            </li>
-                            <!-- Data -->
-                            <li onclick="selectComms('Data', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=DT&background=111&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Data</span>
-                                </div>
-                            </li>
-                            <!-- Informations -->
-                            <li onclick="selectComms('Informations', event)">
-                                <div class="comms-option">
-                                    <img src="https://ui-avatars.com/api/?name=IN&background=a00000&color=fff&rounded=true" class="comms-logo" alt="logo">
-                                    <span>Informations</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-top: 20px; border: 1px solid #333; padding: 20px; background: #0a0a0a; text-align:center;">
-                        <i class="fas fa-satellite-dish" style="font-size: 40px; color: #333; margin-bottom: 10px;"></i>
-                        <p style="color: #666; font-size: 10px;">AWAITING CHANNEL SELECTION FOR HANDSHAKE...</p>
-                    </div>
-
-                    <!-- NEW WINDOW: Lower Right Side (Inside Secure Comms Only) -->
-                    <div id="comms-monitor-window" class="win-box">
-                        <div class="win-bar">
-                            <div class="win-title">LIVE SIGNAL FEED</div>
-                            <div class="win-controls">
-                                <div class="win-btn green"></div>
-                                <div class="win-btn yellow"></div>
+                        <!-- THE TABLE WRAPPER -->
+                        <div class="comms-table-wrapper">
+                            <!-- Simulated Tabs Header from Image -->
+                            <div class="comms-table-tabs">
+                                <div class="comms-tab active">ALL CHANNELS (9)</div>
+                                <div class="comms-tab">SECURE (4)</div>
+                                <div class="comms-tab">EMERGENCY (2)</div>
                             </div>
-                        </div>
-                        <div class="win-body" style="font-size: 9px; line-height: 1.4;">
-                            > CONNECTED NODES: 4<br>
-                            > ENCRYPTION: ACTIVE<br>
-                            > LATENCY: 24ms<br>
-                            > PACKET LOSS: 0%<br>
-                            > UPLINK: STABLE<br>
-                            --------------------<br>
-                            <span style="color: #ff0000;">[!] MONITORING TRAFFIC</span><br>
-                            <br>
-                            > _
+
+                            <table class="comms-grid-table">
+                                <thead>
+                                    <tr>
+                                        <th>CHANNEL NAME</th>
+                                        <th>ID CODE</th>
+                                        <th>SSN</th>
+                                        <th>PROCEDURE</th>
+                                        <th>MIDI</th>
+                                        <th>IMG</th>
+                                        <th>LAST SYNC</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rows will be populated dynamically -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -1798,10 +2146,9 @@
                 <div id="commsSmallWindow" class="win-box">
                     <div class="win-bar">
                         <div class="win-title" id="commsWindowTitle">Channel: N/A</div>
+                        <!-- MODIFIED: Changed win-btn to text X for close -->
                         <div class="win-controls">
-                            <div class="win-btn green"></div>
-                            <div class="win-btn yellow"></div>
-                            <div class="win-btn red" onclick="closeCommsWindow()" style="cursor:pointer"></div>
+                            <div style="color: #ff0000; cursor: pointer; font-weight: bold;" onclick="closeCommsWindow()">[X]</div>
                         </div>
                     </div>
                     <div class="win-body" id="commsWindowContent">
@@ -1863,6 +2210,38 @@
                             <p>Write your secure notes here...</p>
                         </div>
                     </div>
+                
+                    <!-- EXISTING BUILD CATEGORY -->
+                    <div id="build-category-wrapper" style="margin-top: 15px; border: 1px dashed #333; padding: 12px; background: rgba(0, 50, 0, 0.1);">
+                        <label style="color: #00ff41; font-size: 10px; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 8px;">
+                            <i class="fas fa-hammer"></i> Build New Category Node
+                        </label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="new-cat-input" placeholder="ENTER NEW CATEGORY NAME..." 
+                                   style="flex: 1; background: #000; border: 1px solid #444; border-left: 2px solid #00ff41; color: #fff; padding: 8px 12px; font-family: 'Consolas', monospace; font-size: 11px; outline: none;">
+                            
+                            <button onclick="buildAndSelectCategory()" 
+                                    style="background: #004d99; color: white; border: 1px solid #0066cc; padding: 8px 20px; cursor: pointer; font-family: 'Consolas', monospace; font-size: 11px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">
+                                <i class="fas fa-plus"></i> BUILD
+                            </button>
+                        </div>
+                        <p style="color: #666; font-size: 9px; margin-top: 5px; margin-bottom: 0;">
+                            * Creates a new classification index for immediate data upload.
+                        </p>
+                    </div>
+
+                    <!-- START: NEW CATEGORY MANAGER (LIST & DELETE) -->
+                    <div id="category-manager-wrapper" style="margin-top: 10px; border: 1px solid #333; background: #000;">
+                        <div style="background: #1a1a1a; padding: 8px 12px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #a00000; font-weight: bold; font-size: 10px;">ACTIVE CATEGORY DATABASE</span>
+                            <button onclick="refreshCategoryManager()" style="background: transparent; border: none; color: #666; cursor: pointer; font-size: 10px;"><i class="fas fa-sync"></i></button>
+                        </div>
+                        <ul id="manage-cat-list" style="list-style: none; padding: 0; margin: 0; max-height: 150px; overflow-y: auto;">
+                            <!-- Categories will be loaded here via JS -->
+                        </ul>
+                    </div>
+                    <!-- END: NEW CATEGORY MANAGER -->
+
                 </div>
 
                 <!-- UPLOAD DATA SECTION -->
@@ -1872,38 +2251,33 @@
                     <div class="upload-flex-container">
                         <div class="upload-left-side">
                             <form class="upload-form" id="secureUploadForm">
-                                <label><i class="fas fa-id-badge"></i> File ID</label>
-                                <input type="text" id="hist_id" placeholder="e.g. ALPHA-02-X" required>
-                                
+                                <!-- NEW CATEGORY DROPDOWN -->
                                 <label><i class="fas fa-tags"></i> Category</label>
                                 <div class="category-container">
-                                    <input type="hidden" id="upload-category" value="General">
+                                    <input type="hidden" id="upload-category" value="OSINTA">
                                     <div class="category-trigger" onclick="toggleCustomDropdown('upload-cat-list')">
-                                        <span id="upload-cat-label">Classification: General</span>
+                                        <span id="upload-cat-label">Classification: OSINTA</span>
                                         <i class="fas fa-chevron-down"></i>
                                     </div>
                                     <ul id="upload-cat-list" class="category-list">
-                                        <li onclick="selectCategory('upload', 'General')">General</li>
-                                        <li onclick="selectCategory('upload', 'Artificial intelligence')">Artificial intelligence</li>
-                                        <li onclick="selectCategory('upload', 'Cybersecurity')">Cybersecurity</li>
-                                        <li onclick="selectCategory('upload', 'Codes')">Codes</li>
-                                        <li onclick="selectCategory('upload', 'Victim')">Victim</li>
-                                        <li onclick="selectCategory('upload', 'Thrate')">Thrate</li>
-                                        <li onclick="selectCategory('upload', 'Report')">Report</li>
-                                        <li onclick="selectCategory('upload', 'Data')">Data</li>
-                                        <li onclick="selectCategory('upload', 'Informations')">Informations</li>
+                                        <li onclick="selectCategory('upload', 'OSINTA')">OSINTA</li>
+                                        <li onclick="selectCategory('upload', 'Lost.dir')">Lost.dir</li>
+                                        <li onclick="selectCategory('upload', 'Log.list')">Log.list</li>
                                     </ul>
                                 </div>
-
+                                
+                                <label><i class="fas fa-id-badge"></i> File ID</label>
+                                <input type="text" id="hist_id" placeholder="e.g. ALPHA-02-X" required>
+                                
                                 <label><i class="fas fa-file-alt"></i> Description</label>
                                 <textarea id="hist_desc" rows="3" placeholder="Enter secure intel details..."></textarea>
                                 
-                                <div class="file-drop-zone" onclick="document.getElementById('fileInput').click()">
-                                    <i class="fas fa-cloud-upload-alt" style="color: #a00000;"></i>
-                                    <p>SELECT FILES</p>
-                                    <input type="file" id="fileInput" multiple style="display:none" onchange="updateFileList()">
-                                </div>
+                                <!-- NEW URL INPUT -->
+                                <label><i class="fas fa-link"></i> URL (Optional for OSINTA/Lost.dir)</label>
+                                <input type="text" id="hist_url" placeholder="https://external-resource.com or Onion link">
 
+                                <!-- REMOVED FILE UPLOAD ELEMENTS -->
+                                
                                 <div id="fileNames" style="font-size: 0.8em; color: #00ff41; margin-bottom: 15px; font-weight: bold;"></div>
                                 <button type="submit" class="btn-submit" id="mainSubmitBtn">
                                     <i class="fas fa-lock"></i> Initialize Transmission
@@ -1916,11 +2290,7 @@
                             <div class="win-box">
                                 <div class="win-bar">
                                     <div class="win-title">Node_Console.exe</div>
-                                    <div class="win-controls">
-                                        <div class="win-btn green"></div>
-                                        <div class="win-btn yellow"></div>
-                                        <div class="win-btn red"></div>
-                                    </div>
+                                    <!-- WIN-CONTROLS REMOVED HERE -->
                                 </div>
                                 <div class="win-body">
                                     > SYSTEM STATUS: ONLINE<br>
@@ -1963,13 +2333,14 @@
                         <table class="history-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 25%;">Topics</th>
-                                    <th style="width: 15%;">Category</th>
-                                    <th style="width: 15%;">Verified</th> 
-                                    <th style="width: 10%;">Logs ID</th>
-                                    <th style="width: 10%;">Author</th>
-                                    <th style="width: 15%;">Actions</th> <!-- UPDATED COLUMN -->
-                                    <th style="width: 10%;">Last Post</th>
+                                    <th style="width: 18%;">PATIENT NAME</th>
+                                    <th style="width: 10%;">PATIENT ID</th>
+                                    <th style="width: 5%;">SSN</th> 
+                                    <th style="width: 15%;">PROCEDURE</th>
+                                    <th style="width: 8%;">MIDI</th>
+                                    <th style="width: 25%;">ACTIONS</th> <!-- MODIFIED COLUMN TO ACTIONS -->
+                                    <th style="width: 12%;">STUDY TIME</th>
+                                    <th style="width: 7%;">STATUS</th>
                                 </tr>
                             </thead>
                             <tbody id="history-body"></tbody>
@@ -1989,15 +2360,114 @@
         let authStep = 0; 
         let currentEditingDocId = null; // New variable for edit modal doc ID
         let currentNotebookDocId = null; // FIX: Track the currently loaded notebook entry's doc ID
+        let osintDataSeeded = false; // Flag to prevent re-seeding
+
+        // OSINT Data Array for seeding
+        const osintLinks = [
+            { id: "Ahmia Search", url: "https://ahmia.fi/", content: "A deep web search engine that indexes Tor hidden services." },
+            { id: "Haystack Search", url: "", content: "Dark web search engine (offline reference)." },
+            { id: "Tor66 Search", url: "https://tor66.net/", content: "Tor search engine for .onion sites." },
+            { id: "Torch Search", url: "http://xmh57jrknzkhv6y3ls3ubitzfqnkrwxhopf5aygthi7d6rplyvk3noyd.onion/cgi-bin/omega/omega", content: "Original Tor Search Engine." },
+            { id: "Onion Search", url: "", content: "General Onion reference (offline reference)." },
+            { id: "Telemetry Ref", url: "", content: "Darknet telemetry source (offline reference)." },
+            { id: "Library of Leaks", url: "https://search.libraryofleaks.org/", content: "Searchable database for leaked documents." },
+            { id: "Haveibeen Pwned", url: "https://haveibeenpwned.com/", content: "Check if your email or phone is in a data breach." },
+            { id: "DeHashed DB", url: "https://dehashed.com/", content: "Data breach and credential lookup service." },
+            { id: "Leak OSINT", url: "https://leakosint.com/en", content: "Aggregator for data breach information." },
+            { id: "Universal Search Bot", url: "https://sites.google.com/view/universal-search-bot/", content: "Comprehensive OSINT resource list." },
+            { id: "Darkweblive Status", url: "https://darkwebdaily.live/", content: "Dark web status and news monitoring." },
+            { id: "DeepDarkCTI Index", url: "https://deepdarkcti.com/", content: "Cyber Threat Intelligence from deep/dark web." },
+            { id: "Onion.live Index", url: "https://onion.live", content: "A directory of onion sites." },
+            { id: "Tor.link Index", url: "https://tor.link/", content: "Another Tor link directory." },
+            { id: "The Hidden wiki", url: "http://6nhmgdpnyoljh5uzr5kwlatx2u3diou4ldeommfxjz3wkhalzgjqxzqd.onion/", content: "Original uncensored directory." },
+            { id: "ProPublica", url: "https://www.propublica.org/", content: "Non-profit investigative journalism." },
+            { id: "SecureDrop", url: "https://securedrop.org/", content: "Open-source whistleblower submission system." },
+            { id: "Riseup", url: "https://riseup.net/", content: "Activist and privacy-focused email/VPN services." },
+            { id: "Tor Metrics", url: "https://metrics.torproject.org/", content: "Statistics on Tor network usage." },
+            { id: "Tor Crawl.py Ref", url: "", content: "Automated Tor crawler (offline reference)." },
+            { id: "Aleph Search", url: "", content: "Investigative data project (offline reference)." },
+            { id: "Tor2web Gateway", url: "https://www.tor2web.org/", content: "Service to access .onion links via normal browser." },
+            { id: "PGPTool", url: "https://pgptool.net/", content: "Online PGP encryption tool." },
+            { id: "Not Evil Search", url: "https://onion.live/site/not-evil", content: "Tor search engine." },
+            { id: "TorDex Index", url: "https://tordex.cc/", content: "Tor search and directory." },
+            { id: "DarkSearch Engine", url: "https://darknetsearch.com/", content: "Dark web search engine." }
+        ];
 
         // --- FIREBASE SYNC FUNCTIONS ---
         function initApp() {
             updateStatusTime();
             loadLogsFromFirebase(); 
             setupNetworkListener(); // NEW: Setup network status check
+            seedOsintData(); // NEW: Initial data seeding
         }
         
-        // NEW: Network Status Listener
+        // NEW: Function to seed the OSINT data
+        function seedOsintData() {
+            if (localStorage.getItem('osintDataSeeded') === 'true') {
+                return; 
+            }
+
+            // --- START: Duplicate removal on seeding ---
+            const seenIds = new Set();
+            const uniqueOsintLinks = [];
+            osintLinks.forEach(item => {
+                if (!seenIds.has(item.id)) {
+                    seenIds.add(item.id);
+                    uniqueOsintLinks.push(item);
+                }
+            });
+            // --- END: Duplicate removal on seeding ---
+            
+            // Use the de-duplicated array for seeding
+            uniqueOsintLinks.forEach(item => {
+                db.collection("silentgrid_logs").add({
+                    id: item.id,
+                    category: "OSINTA",
+                    content: item.content,
+                    fileUrl: item.url, // Using fileUrl to store the URL/Link
+                    fileName: item.id,
+                    fileType: "link/osint",
+                    fileSize: 0,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).catch(err => {
+                    console.error("Error adding OSINT doc: ", item.id, err);
+                });
+            });
+
+            // Seed placeholder Lost.dir and Log.list entries for display demonstration
+            const demoLogs = [
+                { id: "LOST-001-BOOT", category: "Lost.dir", content: "Unresolved boot trace data.", fileUrl: "", fileType: "text/data" },
+                { id: "LOG-SYSTEM-22A", category: "Log.list", content: "System access log dump.", fileUrl: "", fileType: "text/data" },
+                { id: "LOST-002-MEM", category: "Lost.dir", content: "Corrupted memory dump file.", fileUrl: "", fileType: "text/data" },
+                { id: "LOG-AUTH-B1C", category: "Log.list", content: "Authentication attempts list.", fileUrl: "", fileType: "text/data" }
+            ];
+
+            demoLogs.forEach(item => {
+                // Check if a similar item exists to prevent re-adding on every seed call (simple check, relies on ID not being a real unique key)
+                 db.collection("silentgrid_logs").where("id", "==", item.id).get().then(snapshot => {
+                    if (snapshot.empty) {
+                        db.collection("silentgrid_logs").add({
+                            id: item.id,
+                            category: item.category,
+                            content: item.content,
+                            fileUrl: item.url, 
+                            fileName: item.id,
+                            fileType: item.fileType,
+                            fileSize: 0,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        }).catch(err => {
+                            console.error("Error adding demo doc: ", item.id, err);
+                        });
+                    }
+                });
+            });
+            
+            localStorage.setItem('osintDataSeeded', 'true');
+            showGridToast("OSINT DATA SEEDING COMPLETE");
+        }
+        // ... (rest of initApp remains the same)
+
+        // NEW: Network Status Listener (Restored as per previous code)
         function setupNetworkListener() {
             window.addEventListener('offline', () => {
                 document.getElementById('networkWarning').style.display = 'flex';
@@ -2015,36 +2485,46 @@
             document.getElementById('networkWarning').style.display = 'none';
         }
 
-        // Real file download helper
+        // Real file download helper (Modified to handle URL/File based on fileUrl existence)
         function downloadFile(url, filename) {
             if(!url) { showGridToast("ERROR: NO DATA LINK"); return; }
-            fetch(url)
-                .then(response => response.blob())
-                .then(blob => {
-                    const blobUrl = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(blobUrl);
-                    document.body.removeChild(a);
-                    showGridToast("SECURED: " + filename.toUpperCase());
-                })
-                .catch(() => showGridToast("DOWNLOAD ERROR"));
+            if (url.startsWith('http')) {
+                // Treat as an external link for OSINT
+                window.open(url, '_blank');
+                showGridToast("EXTERNAL LINK OPENED: " + filename.toUpperCase());
+            } else {
+                // Old file download logic (kept for completeness, though not possible with new upload form)
+                fetch(url)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const blobUrl = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(blobUrl);
+                        document.body.removeChild(a);
+                        showGridToast("SECURED: " + filename.toUpperCase());
+                    })
+                    .catch(() => showGridToast("DOWNLOAD ERROR"));
+            }
         }
         
-        // --- FUNCTION: DOWNLOAD TEXT CONTENT ---
-        function downloadContent(content, filename) {
+        // --- FUNCTION: DOWNLOAD TEXT CONTENT (FIXED to use docId and allow raw HTML/Code download) ---
+        function downloadContent(docId) { // Changed parameter to docId
+            const entry = globalLogData.find(item => item.docId === docId);
+            const content = entry ? entry.content : null;
+            const filename = entry ? entry.id : 'download';
+
             if (!content) {
                 showGridToast("ERROR: NO TEXT CONTENT TO DOWNLOAD");
                 return;
             }
-            // Sanitize rich-text content for plain text download (removes HTML tags)
-            const plainText = new DOMParser().parseFromString(content, 'text/html').body.textContent;
             
+            // FIX: Uses raw content for downloading HTML/Code.
             const element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(plainText));
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
             element.setAttribute('download', filename + "_content.txt");
             element.style.display = 'none';
             document.body.appendChild(element);
@@ -2054,11 +2534,24 @@
         }
         // --- END DOWNLOAD TEXT FUNCTION ---
 
+        // --- NEW: SYSTEM LOCKED POPUP LOGIC ---
+        function showLockedPopup() {
+            document.getElementById('systemLockedPopup').style.display = 'flex';
+        }
+
+        function closeLockedPopup() {
+            document.getElementById('systemLockedPopup').style.display = 'none';
+        }
+        // --- END SYSTEM LOCKED POPUP LOGIC ---
+
         // --- NEW: DELETE CONFIRMATION LOGIC ---
         let pendingDeleteData = null;
         
         function openDeleteConfirmModal(docId, fileUrl, itemId) {
-            if (!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+            if (!globalSystemActive) { 
+                showLockedPopup(); // REPLACED: Toast with Popup
+                return; 
+            }
             
             pendingDeleteData = { docId, fileUrl };
             document.getElementById('delete-modal-title').innerText = `AUTHORIZE DATA TERMINATION: ${itemId}`;
@@ -2109,15 +2602,39 @@
             currentEditingDocId = null;
         }
 
-        function openEditModal(docId, currentId, currentCategory, currentContent) {
-            if (!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+        // --- MODIFIED: openEditModal to include dropdown and URL field logic ---
+        function openEditModal(docId) { // Changed parameters to only docId
+            if (!globalSystemActive) { 
+                showLockedPopup(); // REPLACED: Toast with Popup
+                return; 
+            }
+            
+            const entry = globalLogData.find(item => item.docId === docId);
+            if(!entry) { showGridToast("ERROR: Data not found for editing."); return; }
+
             currentEditingDocId = docId;
-            document.getElementById('edit-log-id').value = currentId;
-            document.getElementById('edit-log-category').value = currentCategory;
-            // The notebook content is saved as rich HTML, but the edit modal is a simple textarea. 
-            // We strip HTML tags to show only text for simple editing, as full rich text editing here is complex.
-            const plainContent = new DOMParser().parseFromString(currentContent, 'text/html').body.textContent;
-            document.getElementById('edit-log-content').value = plainContent;
+            document.getElementById('edit-log-id').value = entry.id;
+            
+            // Set the dropdown value and label
+            const category = entry.category || 'General';
+            document.getElementById('edit-log-category').value = category;
+            document.getElementById('edit-cat-label').innerText = 'Classification: ' + category;
+            
+            // Show/Hide URL section and populate URL if available
+            const urlSection = document.getElementById('edit-log-url-section');
+            const urlInput = document.getElementById('edit-log-url');
+            
+            if (category === 'OSINTA' || category === 'Lost.dir' || category === 'Log.list') {
+                urlSection.style.display = 'block';
+                urlInput.value = entry.fileUrl || '';
+            } else {
+                urlSection.style.display = 'none';
+                urlInput.value = ''; // Clear just in case
+            }
+            
+            // Load the raw content/HTML string into the textarea for editing.
+            document.getElementById('edit-log-content').value = entry.content;
+            
             document.getElementById('editLogModal').style.display = 'flex';
             
             // Set up the save button action
@@ -2126,16 +2643,28 @@
             };
         }
 
+        // --- MODIFIED: saveEdit to save URL if visible ---
         function saveEdit(docId) {
             const newId = document.getElementById('edit-log-id').value;
             const newCategory = document.getElementById('edit-log-category').value;
             
             const originalEntry = globalLogData.find(item => item.docId === docId);
             let newContent = document.getElementById('edit-log-content').value;
+            
+            let newFileUrl = originalEntry.fileUrl; 
+            const urlInput = document.getElementById('edit-log-url');
 
-            if (originalEntry && !originalEntry.fileUrl) {
-                // If it was a Notebook entry (no file URL), re-wrap content for the rich editor to handle line breaks as paragraphs
-                newContent = "<p>" + newContent.replace(/\n/g, '</p><p>') + "</p>";
+            // Get URL if visible and applicable
+            if (newCategory === 'OSINTA' || newCategory === 'Lost.dir' || newCategory === 'Log.list') {
+                newFileUrl = urlInput.value.trim();
+            } else if (originalEntry.category === 'OSINTA' || originalEntry.category === 'Lost.dir' || originalEntry.category === 'Log.list') {
+                // If it was an OSINT/Log/Lost.dir entry but is being changed to a regular category, clear the URL
+                 newFileUrl = '';
+            }
+            
+            // If it was a Notebook entry, convert line breaks to <br> to preserve formatting in rich-editor when re-opened
+            if (originalEntry && !originalEntry.fileUrl && newContent.includes('\n')) {
+                newContent = newContent.replace(/\n/g, '<br>');
             } 
             
             if (!newId) { showGridToast("ERROR: File ID cannot be empty."); return; }
@@ -2144,7 +2673,8 @@
             db.collection("silentgrid_logs").doc(docId).update({
                 id: newId,
                 category: newCategory,
-                content: newContent,
+                content: newContent, // This now saves the raw text or raw code
+                fileUrl: newFileUrl // Save the updated or cleared URL
             }).then(() => {
                 showGridToast("DATA LOG UPDATED: " + newId);
                 closeEditModal();
@@ -2152,8 +2682,10 @@
                 showGridToast("UPDATE ERROR: " + err.message);
             });
         }
+        // --- END MODIFIED JS ---
 
-        // --- UPDATED MAIN LOAD FUNCTION ---
+
+        // --- UPDATED MAIN LOAD FUNCTION (FIXED to pass short doc.id instead of huge content string) ---
         function loadLogsFromFirebase() {
             db.collection("silentgrid_logs").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
                 const table = document.getElementById('history-body');
@@ -2166,8 +2698,7 @@
                     const data = doc.data();
                     const dateObj = data.timestamp ? data.timestamp.toDate() : new Date();
                     
-                    // Escape single quotes for use in function call arguments
-                    const contentForArg = data.content ? data.content.replace(/'/g, "\\'") : '';
+                    // REMOVED: const contentForArg = data.content ? data.content.replace(/'/g, "\\'") : '';
 
                     const logEntry = {
                         docId: doc.id, // Store doc ID for delete/edit
@@ -2176,12 +2707,13 @@
                         content: data.content,
                         fileUrl: data.fileUrl,
                         fileName: data.fileName, // Added fileName for better download name
+                        fileType: data.fileType, // Ensure fileType is saved
                         date: dateObj
                     };
                     globalLogData.push(logEntry);
                     
                     // Identify the latest Notebook entry
-                    if (!data.fileUrl && data.content) { // Check if it's a Notebook entry (no fileUrl, has content)
+                    if (!data.fileUrl && data.content && data.category !== 'OSINTA' && data.category !== 'Lost.dir' && data.category !== 'Log.list') { // Check if it's a Notebook entry (no fileUrl, has content, not a new category)
                         if (!latestNote || dateObj > latestNote.date) {
                             latestNote = { ...logEntry, date: dateObj };
                         }
@@ -2190,31 +2722,48 @@
 
                     const row = document.createElement('tr');
                     
-                    // Download File Button: Visible only if fileUrl exists
-                    const downloadFileBtn = data.fileUrl 
-                        ? `<a class="dl-link" onclick="downloadFile('${data.fileUrl}', '${data.fileName || data.id}')"><i class="fas fa-download"></i> DL FILE</a>`
-                        : `<a class="dl-link" style="opacity:0.3; cursor:default; background:#333;"><i class="fas fa-ban"></i> N/A</a>`;
+                    // =========================================================================
+                    // MODIFIED: ACTIONS BUTTON GENERATION REMOVED (REPLACED WITH PLACEHOLDER)
+                    // =========================================================================
+                    // Previous buttons (Download, Edit, Delete) logic has been removed here.
                     
-                    // Download Content Button: Visible only if content exists
-                    const downloadContentBtn = data.content
-                        ? `<a class="dl-link" onclick="downloadContent('${contentForArg}', '${data.id}')" style="background:#2a2a2a; margin-left: 5px;"><i class="fas fa-file-alt"></i> DL TEXT</a>` // New button
-                        : `<a class="dl-link" style="opacity:0.3; cursor:default; margin-left: 5px; background:#333;"><i class="fas fa-file-alt"></i> NO TEXT</a>`;
+                    const actionButtons = `<span style="opacity:0.3; cursor:default; font-size:9px;">---</span>`;
+                    
+                    // =========================================================================
+                    // END: ACTIONS BUTTON MODIFICATION
+                    // =========================================================================
 
-                    // Edit Button (uses escaped content)
-                    const editBtn = `<a class="dl-link edit-btn" onclick="openEditModal('${doc.id}', '${data.id}', '${data.category}', '${contentForArg}')" style="margin-left: 5px;"><i class="fas fa-edit"></i> EDIT</a>`;
                     
-                    // Delete Button (FIX: Calls new delete confirmation modal)
-                    const deleteBtn = `<a class="dl-link" onclick="deleteLog('${doc.id}', '${data.fileUrl || ''}', '${data.id}')" style="background:#ff0000; margin-left: 5px;"><i class="fas fa-trash-alt"></i> DEL</a>`;
+                    // Placeholder values for the new columns
+                    const dummySSN = Math.floor(Math.random() * 9000) + 1000;
+                    const dummyMIDI = 'CT'; 
+                    const dateString = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1).toString().padStart(2, '0')}-${dateObj.getDate().toString().padStart(2, '0')}`;
 
 
                     row.innerHTML = `
-                        <td><div class="col-topic"><span class="status-circle status-verified"></span><a href="#" onclick="loadNotebookEntry('${doc.id}')">${data.id}</a></div></td>
-                        <td><span class="col-category">[ ${data.category} ]</span></td>
-                        <td style="color:#00ff41; font-weight:bold; font-size:10px;">VERIFIED</td>
-                        <td>#${doc.id.substring(0,4).toUpperCase()}</td>
-                        <td style="color:#e6db74;">SYSTEM</td>
-                        <td>${downloadFileBtn} ${downloadContentBtn} ${editBtn} ${deleteBtn}</td> <!-- COMBINED ACTION BUTTONS -->
-                        <td>${dateObj.toLocaleDateString()}<br>by ADMIN</td>
+                        <!-- 1. PATIENT NAME -->
+                        <td><div class="col-topic"><span class="status-circle status-verified"></span><span>${data.id}</span></div></td>
+                        
+                        <!-- 2. PATIENT ID - MODIFIED COLOR TO BLUE -->
+                        <td style="color:#569cd6; font-weight:bold;">${doc.id.substring(0,6).toUpperCase()}</td> 
+
+                        <!-- 3. SSN -->
+                        <td style="color:#aaa;">${dummySSN}</td>
+
+                        <!-- 4. PROCEDURE (Category) -->
+                        <td><span class="col-category">${data.category}</span></td>
+
+                        <!-- 5. MIDI (Placeholder) -->
+                        <td style="color:#888;">${dummyMIDI}</td>
+
+                        <!-- 6. ACTIONS (The new column with placeholder) -->
+                        <td style="white-space: nowrap;">${actionButtons}</td>
+
+                        <!-- 7. STUDY TIME (Date) -->
+                        <td style="color:#888;">${dateString}</td>
+                        
+                        <!-- 8. STATUS - MODIFIED COLOR TO BLUE -->
+                        <td style="color:#569cd6; font-weight:bold; font-size:10px;">VERIFIED</td>
                     `;
                     table.appendChild(row);
                 });
@@ -2231,9 +2780,116 @@
                     document.getElementById('notebook-title').value = "";
                     document.getElementById('rich-editor').innerHTML = "<p>Write your secure notes here...</p>";
                 }
+
+                // NEW: Update Network Map lists after load 
+                if (document.getElementById('network-map-section').style.display === 'block') {
+                    renderOsintList();
+                }
+
+                // NEW: Update Secure Comms Table & Category Manager when data loads
+                updateSecureCommsTable();
             });
         }
         
+        // --- NEW FUNCTION: Render Dedicated Map Lists (REPLACING OLD renderOsintList LOGIC) ---
+        function renderMapLists(category, listId, triggerId, headerText) {
+            const listElement = document.getElementById(listId);
+            if (!listElement) return;
+
+            listElement.innerHTML = ''; // Clear previous content
+            
+            // Filter ONLY for the specified category
+            const filteredData = globalLogData.filter(item => item.category === category);
+            
+            // --- START: Duplicate removal logic (by ID) ---
+            const seenIds = new Set();
+            const uniqueData = [];
+            
+            filteredData.forEach(item => {
+                if (!seenIds.has(item.id)) {
+                    seenIds.add(item.id);
+                    uniqueData.push(item);
+                }
+            });
+            // --- END: Duplicate removal logic ---
+
+            
+            if (uniqueData.length === 0) {
+                listElement.innerHTML = `<li style="opacity:0.5; padding: 12px 15px; font-size: 9px; cursor: default; border-top: 1px solid #222;">NO ${category.toUpperCase()} NODES FOUND.</li>`;
+                return;
+            }
+
+            // Use uniqueData for rendering
+            uniqueData.forEach(item => {
+                // Determine logo source (using first two letters of the ID)
+                const logoName = item.id.substring(0, 2).toUpperCase();
+                let logoColor, borderColor, hoverBg;
+                
+                if (category === 'OSINTA') {
+                    logoColor = '004d99'; 
+                    borderColor = '#004d99'; 
+                    hoverBg = '#0066cc';
+                } else if (category === 'Lost.dir') {
+                    logoColor = 'a00000';
+                    borderColor = '#ff0000';
+                    hoverBg = '#2a0000';
+                } else if (category === 'Log.list') {
+                    logoColor = '2a2a2a';
+                    borderColor = '#777777';
+                    hoverBg = '#444444';
+                } else {
+                    logoColor = '111';
+                    borderColor = '#333';
+                    hoverBg = '#2a0000';
+                }
+                
+                const logoSrc = `https://ui-avatars.com/api/?name=${logoName}&background=${logoColor}&color=fff&rounded=true`;
+
+                const listItem = document.createElement('li');
+                // Use the OSINT selection function which reuses the small comms window logic
+                listItem.setAttribute('onclick', `selectOsint('${item.id}', '${item.fileUrl || ''}', event, '${item.category}')`);
+                listItem.style.borderTop = '1px solid #222';
+
+                // Apply specific hover styles 
+                listItem.onmouseover = function() { this.style.backgroundColor = hoverBg; this.style.paddingLeft = '20px'; this.style.color = '#ffffff'; };
+                listItem.onmouseout = function() { this.style.backgroundColor = 'transparent'; this.style.paddingLeft = '15px'; this.style.color = '#ffffff'; }; 
+
+                listItem.innerHTML = `
+                    <div class="comms-option">
+                        <img src="${logoSrc}" class="comms-logo" alt="logo" style="border-color: ${borderColor};">
+                        <span style="font-size: 10px;">${item.id}</span>
+                    </div>
+                `;
+                listElement.appendChild(listItem);
+            });
+            
+            // Ensure the list items have correct default padding
+            const listItems = listElement.querySelectorAll('li');
+            listItems.forEach(li => {
+                li.style.padding = '12px 15px'; // Adjust to fit the default li padding
+            });
+        }
+        
+        // --- MODIFIED FUNCTION: renderOsintList (Now the main map list renderer) ---
+        function renderOsintList() {
+            // 1. OSINTA List
+            renderMapLists('OSINTA', 'network-map-osint-list', 'osint-list-trigger', 'OSINT SEARCH ENGINE LIST');
+            
+            // 2. Lost.dir List (New)
+            renderMapLists('Lost.dir', 'network-map-lost-dir-list', 'lost-dir-list-trigger', 'LOST.DIR LOGS INDEX');
+
+            // 3. Log.list List (New)
+            renderMapLists('Log.list', 'network-map-log-list', 'log-list-trigger', 'LOG.LIST DUMP INDEX');
+        }
+        
+        // --- OLD FUNCTION: Keeping the empty shell, calling the new function. ---
+        function displayNetworkMapLists() {
+            // Initialization for Network Map view now just calls the dedicated OSINT rendering function
+            renderOsintList();
+        }
+        // --- END NEW/MODIFIED FUNCTION ---
+
+
         // --- NEW FUNCTION: LOAD NOTEBOOK ENTRY ---
         function loadNotebookEntry(docId) {
             const entry = globalLogData.find(item => item.docId === docId);
@@ -2262,8 +2918,8 @@
             logBox.innerHTML = ""; 
             const logs = [
                 "INITIATING GLOBAL UNLOCK SEQUENCE...",
-                "VERIFYING USER 'ROHIT'...",
-                "SECONDARY KEY 'NEX' ACCEPTED...",
+                "VERIFYING USER 'Rohit'...",
+                "SECONDARY KEY 'nex/001' ACCEPTED...",
                 "DECRYPTING UPLOAD MODULES...",
                 "BYPASSING FIREWALL (LAYER 4)...",
                 "CONNECTING TO SECURE CLOUD NODES...",
@@ -2284,8 +2940,8 @@
             });
         }
 
-        function handleTerminalCommand(e) {
-            if(e.key === 'Enter') {
+        function handleTerminalCommand(event) {
+            if(event.key === 'Enter') {
                 const input = document.getElementById('terminal-input');
                 const output = document.getElementById('term-output');
                 const val = input.value.trim();
@@ -2300,7 +2956,7 @@
                     } else { output.innerHTML += `<div style="color:#ff0000;">> ACCESS DENIED: INVALID USER</div>`; }
                 } 
                 else if (authStep === 1) {
-                    if (val === "nex") {
+                    if (val === "nex/001") {
                         globalSystemActive = true;
                         authStep = 2; 
                         output.innerHTML += `<div style="color:#00ff41;">> ACCESS GRANTED: all are nex</div>`;
@@ -2323,14 +2979,38 @@
         function toggleCustomDropdown(id) {
             const list = document.getElementById(id);
             const allLists = document.querySelectorAll('.category-list');
-            allLists.forEach(l => { if(l.id !== id && l.id !== 'comms-cat-list') l.classList.remove('active'); });
-            list.classList.toggle('active');
+            // The OSINT list is permanent, so we only close non-map dropdowns that are currently active.
+            
+            // NOTEBOOK / UPLOAD / EDIT DROPDOWNS:
+            allLists.forEach(l => { 
+                if(l.id !== 'network-map-osint-list' && l.id !== 'network-map-lost-dir-list' && l.id !== 'network-map-log-list' && l.id !== 'comms-cat-list') l.classList.remove('active'); 
+            });
+            // If the element clicked is not the fixed OSINT list, toggle it
+            if (id !== 'network-map-osint-list' && id !== 'network-map-lost-dir-list' && id !== 'network-map-log-list') {
+                list.classList.toggle('active');
+            }
         }
 
+        // --- MODIFIED: selectCategory to handle dynamic URL field in Edit Modal ---
         function selectCategory(type, value) {
-            document.getElementById(type + '-category').value = value;
-            document.getElementById(type + '-cat-label').innerText = 'Classification: ' + value;
-            document.getElementById(type + '-cat-list').classList.remove('active');
+            const categoryInput = document.getElementById(type + '-category');
+            const label = document.getElementById(type + '-cat-label');
+            const list = document.getElementById(type + '-cat-list');
+            const urlSection = document.getElementById('edit-log-url-section');
+            
+            categoryInput.value = value;
+            label.innerText = (type === 'network-map' ? 'Selected Category: ' : 'Classification: ') + value;
+            if (list) list.classList.remove('active');
+
+            // Handle visibility of the URL field ONLY for the edit modal
+            if (type === 'edit-log') {
+                if (value === 'OSINTA' || value === 'Lost.dir' || value === 'Log.list') {
+                    urlSection.style.display = 'block';
+                } else {
+                    urlSection.style.display = 'none';
+                    document.getElementById('edit-log-url').value = ''; // Clear URL when switching away
+                }
+            }
         }
         
         function selectComms(category, event) {
@@ -2339,15 +3019,135 @@
             openCommsWindow(category, event.currentTarget);
         }
 
-        // --- UPDATED COMMS WINDOW FUNCTION ---
+        // --- NEW FUNCTION: Select OSINT and open small window (Reused for all Map Lists) ---
+        function selectOsint(name, url, event, category) { // **MODIFIED: Added category parameter**
+            event.stopPropagation(); 
+            // Removed updating network-map-category since it no longer exists in a meaningful context here.
+            openOsintWindow(name, url, event.currentTarget, category); // **MODIFIED: Passed category**
+        }
+
+        // --- NEW FUNCTION: Open External Viewer (Big Window with Iframe) ---
+        function openExternalViewer(url, name) {
+            const modal = document.getElementById('externalViewModal');
+            const iframe = document.getElementById('externalFrame');
+            const titleSpan = document.getElementById('externalViewTitle');
+
+            if (!url || url === 'N/A (ONION/CLOSED NETWORK)') {
+                showGridToast("ERROR: CANNOT EXECUTE OFFLINE/INVALID QUERY");
+                return;
+            }
+            
+            // Close the small window first (if it was open)
+            // closeCommsWindow(); // **REMOVED THIS LINE as per the user's request**
+
+            // Set content
+            titleSpan.innerHTML = `<i class="fas fa-globe"></i> EXTERNAL NODE CONNECTION: ${name.toUpperCase()}`;
+            // NOTE: Many websites block loading in an iframe (X-Frame-Options), but this is the requested method.
+            iframe.src = url; 
+
+            // Display the big modal
+            modal.style.display = 'flex';
+            showGridToast(`CONNECTING TO EXTERNAL NODE: ${name}`);
+        }
+
+        function closeExternalViewer() {
+            const modal = document.getElementById('externalViewModal');
+            const iframe = document.getElementById('externalFrame');
+            iframe.src = 'about:blank'; // Clear iframe content
+            modal.style.display = 'none';
+        }
+        // --- END NEW FUNCTIONS ---
+        
+        // --- MODIFIED FUNCTION: Open OSINT Window (reusing commsSmallWindow) ---
+        function openOsintWindow(name, url, triggerElement, category) { // **MODIFIED: Added category parameter**
+            const win = document.getElementById('commsSmallWindow');
+            const title = document.getElementById('commsWindowTitle');
+            const content = document.getElementById('commsWindowContent');
+            
+            // Step 1: Set content/title first so offsetHeight is accurate
+            title.innerText = "DATA NODE: " + name.toUpperCase();
+            
+            const displayUrl = url || 'N/A (ONION/CLOSED NETWORK)';
+            
+            // Find the full entry to get the content/description
+            // Filtering by ID and URL (or just ID since all OSINTA are unique by ID)
+            const entry = globalLogData.find(item => item.id === name); // Removed category filter for simplicity since ID is primary key in this context
+            const description = entry ? entry.content : "No detailed description available.";
+            
+            // MODIFICATION: Change the button's action to call openExternalViewer
+            const actionButton = url && url.startsWith('http')
+                ? `<a class="dl-link" onclick="openExternalViewer('${url}', '${name}')" style="background:#004d99; border-color:#0066cc; display:inline-block; margin-top:10px;"><i class="fas fa-external-link-alt"></i> EXECUTE QUERY</a>`
+                : `<span style="color:#ff0000; font-weight:bold; font-size:10px; display:block; margin-top:10px;">[ OFFLINE NETWORK REFERENCE ]</span>`;
+
+            // Written content for the window
+            const writtenContent = `
+                > NODE_ID: ${name}<br>
+                > CATEGORY: ${entry ? entry.category : 'OSINTA'}<br>
+                > LINK: <span style="color:#00ff41; font-weight:bold;">${displayUrl}</span><br>
+                > STATUS: ${url ? 'ONLINE_REF' : 'OFFLINE_REF'}<br>
+                -----------------------------<br>
+                > DESCRIPTION: ${description}
+                ${actionButton}
+            `;
+            
+            content.innerHTML = `<div style="padding: 10px; font-size: 10px; line-height: 1.6;">${writtenContent}</div>`;
+            
+            // --- START POSITION FIX (Modified Logic for Left/Right) ---
+            const rect = triggerElement.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const safeWindowWidth = 500; // #commsSmallWindow width is 500px
+            const safeWindowHeight = 450; // Estimated height for the small window
+            const margin = 20; 
+            
+            let newTop = rect.top;
+            let newLeft;
+            
+            // Determine if to open Left or Right based on category (Lost.dir & Log.list open left)
+            const openLeft = (category === 'Lost.dir' || category === 'Log.list');
+            
+            if (openLeft) { // Open Left
+                newLeft = rect.left - safeWindowWidth - 10; // rect.left - window width - margin
+                // Safety check: if newLeft is too far left, default to opening right 
+                if (newLeft < margin) { 
+                    newLeft = rect.right + 10; 
+                }
+            } else { // Open Right (Default for OSINTA and fallback)
+                newLeft = rect.right + 10;
+                // Secondary safety check: if opening right goes off-screen, try opening left
+                if ((rect.right + safeWindowWidth + 10) > viewportWidth) {
+                     newLeft = rect.left - safeWindowWidth - 10;
+                     // Tertiary check: if trying left also fails (very small screen), revert to original right position
+                     if (newLeft < margin) {
+                         newLeft = rect.right + 10; // Keep it on the right, even if it overflows
+                     }
+                }
+            }
+
+            // Adjust vertical position (same as before)
+            if (rect.top + safeWindowHeight + margin > viewportHeight) {
+                // Adjust position to prevent going off-screen bottom
+                newTop = viewportHeight - safeWindowHeight - margin;
+                
+                // Ensure it doesn't go off-screen top (only an issue if viewport is very small)
+                if (newTop < margin) {
+                    newTop = margin; // Clamp to top margin
+                }
+            }
+            
+            win.style.top = newTop + 'px';
+            win.style.left = newLeft + 'px'; 
+            // --- END POSITION FIX (Modified Logic for Left/Right) ---
+
+            win.style.display = 'block';
+        }
+        // --- END MODIFIED OSINT FUNCTIONS ---
+
+        // --- UPDATED COMMS WINDOW FUNCTION (FIXED to pass short doc.id instead of huge content string and fix positioning) ---
         function openCommsWindow(category, triggerElement) {
             const win = document.getElementById('commsSmallWindow');
             const title = document.getElementById('commsWindowTitle');
             const content = document.getElementById('commsWindowContent');
-            const rect = triggerElement.getBoundingClientRect();
-            win.style.top = rect.top + 'px';
-            win.style.left = (rect.right + 10) + 'px';
-            title.innerText = "DATA RECORD: " + category.toUpperCase();
             
             // Filter using the docId which is now in globalLogData
             const filteredData = globalLogData.filter(item => item.category === category);
@@ -2358,21 +3158,25 @@
                 let html = '<table style="width:100%; border-collapse:collapse; font-size:10px;"><thead><tr style="border-bottom:1px solid #444; color:#888;"><th style="text-align:left; padding:8px 5px;">ID</th><th style="text-align:left; padding:8px 5px;">DATE</th><th style="text-align:right; padding:8px 5px;">ACTIONS</th></tr></thead><tbody>';
                 
                 filteredData.forEach((item) => {
-                    // Escape single quotes for use in function call arguments
-                    const contentForArg = item.content ? item.content.replace(/'/g, "\\'") : '';
+                    // REMOVED: const contentForArg = item.content ? item.content.replace(/'/g, "\\'") : '';
                     
                     // Download File Button: Visible only if fileUrl exists
-                    const dlFileBtn = item.fileUrl 
+                    const isFileOrLink = item.fileUrl && item.fileType !== 'link/osint'; 
+                    const dlFileBtn = isFileOrLink 
                         ? `<a class="dl-link" onclick="downloadFile('${item.fileUrl}', '${item.fileName || item.id}')" style="background: #333; border-color: #555;"><i class="fas fa-download"></i> FILE</a>` 
-                        : `<span style="color:#444">N/A</span>`;
+                        : (item.fileUrl && item.fileType === 'link/osint'
+                            ? `<a class="dl-link" onclick="openExternalViewer('${item.fileUrl}', '${item.fileName || item.id}')" style="background:#004d99; margin-left: 5px;"><i class="fas fa-external-link-alt"></i> LINK</a>`
+                            : `<span style="color:#444">N/A</span>`);
                     
                     // NEW: Download Content Button: Visible only if content exists
+                    // FIX: Pass only doc.id
                     const dlContentBtn = item.content
-                        ? `<a class="dl-link" onclick="downloadContent('${contentForArg}', '${item.id}')" style="background:#2a2a2a; margin-left: 5px;"><i class="fas fa-file-alt"></i> TEXT</a>`
+                        ? `<a class="dl-link" onclick="downloadContent('${item.docId}')" style="background:#2a2a2a; margin-left: 5px;"><i class="fas fa-file-alt"></i> TEXT</a>`
                         : `<span style="color:#444; margin-left: 5px;">NO TEXT</span>`;
 
                     // Edit Button
-                    const editBtn = `<a class="dl-link edit-btn" onclick="openEditModal('${item.docId}', '${item.id}', '${item.category}', '${contentForArg}')" style="margin-left: 5px;"><i class="fas fa-edit"></i> EDIT</a>`;
+                    // FIX: Pass only doc.id
+                    const editBtn = `<a class="dl-link edit-btn" onclick="openEditModal('${item.docId}')" style="margin-left: 5px;"><i class="fas fa-edit"></i> EDIT</a>`;
                     
                     // Delete Button
                     const deleteBtn = `<a class="dl-link" onclick="deleteLog('${item.docId}', '${item.fileUrl || ''}', '${item.id}')" style="background:#ff0000; margin-left: 5px;"><i class="fas fa-trash-alt"></i> DEL</a>`;
@@ -2386,6 +3190,41 @@
                 html += '</tbody></table>';
                 content.innerHTML = html;
             }
+
+            title.innerText = "DATA RECORD: " + category.toUpperCase();
+            
+            // --- START POSITION FIX ---
+            const rect = triggerElement.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const safeWindowHeight = 450; // Estimated height for the small window (400px content + bar/padding)
+            const safeWindowWidth = 500; // Estimated Width
+            const margin = 20; // Margin from the edge
+            
+            let newTop = rect.top;
+            let newLeft = rect.right + 10; // Default placement: To the right
+            
+            // Vertical Check: Check if the bottom of the window will go off-screen
+            if (rect.top + safeWindowHeight + margin > viewportHeight) {
+                // Adjust position to prevent going off-screen bottom
+                newTop = viewportHeight - safeWindowHeight - margin;
+                
+                // Ensure it doesn't go off-screen top (only an issue if viewport is very small)
+                if (newTop < margin) {
+                    newTop = margin; // Clamp to top margin
+                }
+            }
+
+            // Horizontal Check: Check if opening right goes off-screen (Since we have a full width table now)
+            if (newLeft + safeWindowWidth > viewportWidth) {
+                // Shift it to the left to fit on screen
+                newLeft = viewportWidth - safeWindowWidth - margin;
+            }
+            
+            win.style.top = newTop + 'px';
+            win.style.left = newLeft + 'px';
+            // --- END POSITION FIX ---
+
             win.style.display = 'block';
         }
 
@@ -2393,12 +3232,30 @@
 
         window.addEventListener('click', function(e) {
             if (!e.target.closest('.category-container')) {
-                document.querySelectorAll('.category-list').forEach(l => { if (l.id !== 'comms-cat-list') l.classList.remove('active'); });
+                // Keep default category dropdowns open/close logic
+                document.querySelectorAll('.category-list').forEach(l => { 
+                    if (!l.classList.contains('map-list-permanent') && l.id !== 'comms-cat-list') l.classList.remove('active'); 
+                });
             }
-            if (!e.target.closest('#commsSmallWindow') && !e.target.closest('#secure-comms-section .category-list')) { closeCommsWindow(); }
-            if (!e.target.closest('#editLogModal') && !e.target.closest('.dl-link') && !e.target.closest('#deleteConfirmModal') && !e.target.closest('.modal-btn')) { 
+            // Close the small window if click is outside the window AND outside the relevant list/triggers
+            if (!e.target.closest('#commsSmallWindow') && 
+                !e.target.closest('#secure-comms-section .category-list') &&
+                !e.target.closest('#network-map-osint-list') && // Updated ID
+                !e.target.closest('#network-map-lost-dir-list') && // New ID
+                !e.target.closest('#network-map-log-list') // New ID
+                ) { 
+                 closeCommsWindow(); 
+            }
+            
+            // ADDED: Close external viewer if click is outside
+            if (!e.target.closest('#externalViewModal') && !e.target.closest('#commsSmallWindow') && !e.target.closest('.dl-link')) {
+                closeExternalViewer(); 
+            }
+            
+            if (!e.target.closest('#editLogModal') && !e.target.closest('.dl-link') && !e.target.closest('#deleteConfirmModal') && !e.target.closest('.modal-btn') && !e.target.closest('#systemLockedPopup')) { 
                 closeEditModal(); 
                 closeDeleteConfirmModal(); // Close delete modal too
+                closeLockedPopup(); // Close locked modal too
             }
         });
 
@@ -2407,9 +3264,14 @@
 
         function unlockMainSite() {
             const val = document.getElementById('initialPhraseInput').value;
-            if(val === "Xcvnex") {
+            if(val === "alpha02/sierra0.1X") {
                 document.getElementById('entry-page').style.display = 'none';
                 document.getElementById('main-wrapper').style.display = 'flex';
+                
+                // --- ADDED: Auto open dashboard ---
+                toggleDashboard(true);
+                // ----------------------------------
+
                 showGridToast("ACCESS GRANTED: WELCOME TO AlphaVault/X01");
             } else { triggerAccessDenied(); }
         }
@@ -2425,8 +3287,14 @@
             document.getElementById('history-section').style.display = 'none';
             document.getElementById('notebook-section').style.display = 'none';
             document.getElementById('secure-comms-section').style.display = 'none';
+            document.getElementById('network-map-section').style.display = 'none'; // Hide Network Map section
             document.getElementById(pageId).style.display = 'block';
             document.getElementById('dropdownMenu').classList.remove('open');
+            
+            if (pageId === 'network-map-section') {
+                // When Network Map opens, load all dedicated lists
+                renderOsintList();
+            }
         }
 
         function execCmd(command) { document.execCommand(command, false, null); }
@@ -2454,22 +3322,8 @@
             };
         }
 
-        function triggerNotebookFileUpload(type) { document.getElementById('nb-' + type + '-input').click(); }
-        function handleNotebookFile(input, type) {
-            const file = input.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataUrl = e.target.result;
-                let htmlToInsert = "";
-                if (type === 'image') htmlToInsert = `<img src="${dataUrl}" alt="uploaded image">`;
-                else if (type === 'video') htmlToInsert = `<video controls src="${dataUrl}"></video>`;
-                else if (type === 'audio') htmlToInsert = `<audio controls src="${dataUrl}"></audio>`;
-                insertHTMLAtCursor(htmlToInsert);
-                input.value = "";
-            };
-            reader.readAsDataURL(file);
-        }
+        function triggerNotebookFileUpload(type) { /* REMOVED FILE INPUTS */ }
+        function handleNotebookFile(input, type) { /* REMOVED FILE LOGIC */ }
 
         function insertHTMLAtCursor(html) {
             document.getElementById('rich-editor').focus();
@@ -2509,7 +3363,10 @@
         function closeConfirmModal() { document.getElementById('uploadConfirmModal').style.display = 'none'; }
 
         function uploadNoteToGrid() {
-            if(!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+            if(!globalSystemActive) { 
+                showLockedPopup(); // REPLACED: Toast with Popup
+                return; 
+            }
             pendingUploadSource = "NOTE";
             document.getElementById('securityPhraseInput').value = "";
             document.getElementById('uploadConfirmModal').style.display = 'flex';
@@ -2517,10 +3374,10 @@
 
         function verifySecurityAndUpload() {
             const phrase = document.getElementById('securityPhraseInput').value;
-            if (phrase === "Xcvnex") {
+            if (phrase === "alpha02/sierra0.1X") {
                 closeConfirmModal();
                 if (pendingUploadSource === "NOTE") startNoteTransmission();
-                else if (pendingUploadSource === "DATA") executeDataUploadTransmission();
+                else if (pendingUploadSource === "DATA") executeNTDataUpload(); // MODIFIED CALL
             } else { closeConfirmModal(); triggerAccessDenied(); }
         }
 
@@ -2562,78 +3419,67 @@
         }
 
         function updateFileList() {
-            const input = document.getElementById('fileInput');
-            const output = document.getElementById('fileNames');
-            output.innerHTML = input.files.length > 0 ? "READY: " + input.files.length + " FILES LOADED" : "";
+            /* REMOVED FILE LOGIC */
+            document.getElementById('fileNames').innerHTML = "FILE UPLOAD MODULES REMOVED";
         }
 
-        document.getElementById('secureUploadForm').onsubmit = function(e) {
-            e.preventDefault();
-            if(!globalSystemActive) { showGridToast("LOCKED: ACTIVATE GLOBAL NET ACTIVITY FIRST"); return; }
+        document.getElementById('secureUploadForm').onsubmit = function(event) {
+            event.preventDefault();
+            if(!globalSystemActive) { 
+                showLockedPopup(); // REPLACED: Toast with Popup
+                return; 
+            }
             pendingUploadSource = "DATA";
             document.getElementById('securityPhraseInput').value = "";
             document.getElementById('uploadConfirmModal').style.display = 'flex';
         };
 
-        // --- FIXED: CLOUD FILE UPLOAD LOGIC ---
-        function executeDataUploadTransmission() {
-            const fileInput = document.getElementById('fileInput');
+        // --- NEW/MODIFIED: NT DATA UPLOAD LOGIC ---
+        function executeNTDataUpload() {
             const fileID = document.getElementById('hist_id').value;
             const category = document.getElementById('upload-category').value;
             const description = document.getElementById('hist_desc').value;
+            const url = document.getElementById('hist_url').value;
             const progContainer = document.getElementById('progContainer');
-            const progBar = document.getElementById('progBar');
             
-            if (fileInput.files.length === 0) {
-                showGridToast("ERROR: NO FILES SELECTED");
+            if (!fileID) {
+                showGridToast("ERROR: FILE ID REQUIRED");
                 return;
             }
 
-            const file = fileInput.files[0];
-            const storagePath = 'silent_grid/' + Date.now() + "_" + file.name;
-            const storageRef = storage.ref(storagePath);
-            
             progContainer.style.display = 'block';
-            progBar.style.width = '0%';
+            
+            // Simulate progress bar and immediate upload since there is no file
+            const progBar = document.getElementById('progBar');
+            progBar.style.width = '100%';
 
-            const uploadTask = storageRef.put(file);
-
-            uploadTask.on('state_changed', 
-                (snapshot) => {
-                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    progBar.style.width = progress + '%';
-                }, 
-                (error) => {
-                    showGridToast("UPLOAD FAILED: " + error.message);
-                    progContainer.style.display = 'none';
-                }, 
-                () => {
-                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        // Creating a proper database entry for the uploaded content
-                        db.collection("silentgrid_logs").add({
-                            id: fileID,
-                            category: category,
-                            content: description,
-                            fileUrl: downloadURL, 
-                            fileName: file.name,
-                            fileType: file.type,
-                            fileSize: file.size,
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                        }).then(() => {
-                            progContainer.style.display = 'none';
-                            document.getElementById('uploadSuccessModal').style.display = 'flex';
-                            resetUploadForm();
-                        });
-                    });
-                }
-            );
+            // Creating a proper database entry for the uploaded content (Text/URL only)
+            db.collection("silentgrid_logs").add({
+                id: fileID,
+                category: category,
+                content: description,
+                fileUrl: url || '', // Store the URL here
+                fileName: fileID,
+                fileType: url ? "link/user" : "text/data",
+                fileSize: (description.length + url.length) * 2, // Dummy size calculation
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                progContainer.style.display = 'none';
+                document.getElementById('uploadSuccessModal').style.display = 'flex';
+                resetUploadForm();
+            }).catch((error) => {
+                showGridToast("UPLOAD FAILED: " + error.message);
+                progContainer.style.display = 'none';
+            });
         }
+        // --- END NEW/MODIFIED LOGIC ---
 
         function resetUploadForm() {
             document.getElementById('secureUploadForm').reset();
             document.getElementById('fileNames').innerHTML = "";
-            document.getElementById('upload-cat-label').innerText = 'Classification: General';
-            document.getElementById('upload-category').value = 'General';
+            document.getElementById('upload-cat-label').innerText = 'Classification: OSINTA'; // Default to first new category
+            document.getElementById('upload-category').value = 'OSINTA';
+            document.getElementById('progContainer').style.display = 'none';
         }
 
         function updateStatusTime() {
@@ -2685,6 +3531,178 @@
             element.click();
             document.body.removeChild(element);
             showGridToast("TXT DOWNLOADED: " + title);
+        }
+
+        // --- 1. RENDER CATEGORY MANAGER LIST (Notebook Page) ---
+        function refreshCategoryManager() {
+            const list = document.getElementById('manage-cat-list');
+            list.innerHTML = "";
+
+            // Get all categories currently in the Dropdown
+            const dropdown = document.getElementById('notebook-cat-list');
+            const items = dropdown.getElementsByTagName('li');
+            
+            // Convert to array to avoid live collection issues
+            Array.from(items).forEach(item => {
+                const catName = item.innerText;
+                
+                // Create List Item
+                const li = document.createElement('li');
+                li.style.padding = "8px 12px";
+                li.style.borderBottom = "1px solid #222";
+                li.style.display = "flex";
+                li.style.justifyContent = "space-between";
+                li.style.alignItems = "center";
+                li.style.fontSize = "10px";
+                li.style.color = "#ccc";
+
+                // Category Name
+                const nameSpan = document.createElement('span');
+                nameSpan.innerText = "> " + catName;
+                
+                // Delete Button
+                const delBtn = document.createElement('button');
+                delBtn.innerHTML = "[X] DELETE";
+                delBtn.style.background = "#330000";
+                delBtn.style.border = "1px solid #550000";
+                delBtn.style.color = "#ff5555";
+                delBtn.style.cursor = "pointer";
+                delBtn.style.fontSize = "9px";
+                delBtn.style.padding = "2px 6px";
+                
+                // Delete Action
+                delBtn.onclick = function() {
+                    deleteCategoryNode(catName, item, li);
+                };
+
+                li.appendChild(nameSpan);
+                li.appendChild(delBtn);
+                list.appendChild(li);
+            });
+        }
+
+        // --- 2. DELETE CATEGORY FUNCTION ---
+        function deleteCategoryNode(catName, dropdownItem, managerItem) {
+            if(confirm("CONFIRM DELETION: Remove category '" + catName + "' from list? (Data remains in Grid)")) {
+                // Remove from Dropdown
+                dropdownItem.remove();
+                // Remove from Manager List
+                managerItem.remove();
+                showGridToast("CATEGORY NODE DELETED: " + catName);
+                
+                // Reset selection if deleted category was selected
+                const currentCat = document.getElementById('notebook-category').value;
+                if(currentCat === catName) {
+                    selectCategory('notebook', 'General');
+                }
+            }
+        }
+
+        // --- 3. DYNAMIC SECURE COMMS TABLE (The Core Logic) ---
+        function updateSecureCommsTable() {
+            const tableBody = document.querySelector('.comms-grid-table tbody');
+            if(!tableBody) return;
+
+            tableBody.innerHTML = ""; // Clear existing static rows
+
+            // 1. Get all unique categories from the actual uploaded data
+            const categories = new Set();
+            
+            // Add default categories first (optional, ensures they always show)
+            ['General', 'Artificial intelligence', 'Cybersecurity', 'Codes', 'Victim', 'Thrate', 'Report', 'Data', 'Informations'].forEach(c => categories.add(c));
+
+            // Add any custom categories found in Firebase data
+            globalLogData.forEach(item => {
+                if(item.category) categories.add(item.category);
+            });
+
+            // 2. Generate Rows for each category
+            categories.forEach(cat => {
+                // Find data for this category to determine status/date
+                const catData = globalLogData.filter(i => i.category === cat);
+                const count = catData.length;
+                
+                // Determine latest date
+                let lastSync = "N/A";
+                if(catData.length > 0) {
+                    // Sort by date desc
+                    catData.sort((a,b) => b.date - a.date);
+                    const d = catData[0].date;
+                    lastSync = `${d.getFullYear()}-${(d.getMonth()+1).toString().padStart(2,'0')}-${d.getDate().toString().padStart(2,'0')}`;
+                } else {
+                    // Default date if empty
+                    lastSync = new Date().toISOString().slice(0,10); 
+                }
+
+                // Determine Status based on data presence
+                const statusClass = count > 0 ? "col-status-v" : "col-status-nv";
+                const statusText = count > 0 ? "VERIFIED" : "NO DATA";
+                const rowColor = count > 0 ? "#ffffff" : "#888";
+
+                // Generate Random/Pseudo IDs for look (consistent hash based on name length)
+                const pseudoID = cat.substring(0,2).toUpperCase() + "_" + (1000 + cat.length * 55) + "/X";
+                const pseudoSSN = 1000 + cat.length * 12;
+
+                const row = document.createElement('tr');
+                row.setAttribute('onclick', `selectComms('${cat}', event)`);
+                
+                row.innerHTML = `
+                    <td>${cat.toUpperCase()}</td>
+                    <td class="col-id">${pseudoID}</td>
+                    <td>${pseudoSSN}</td>
+                    <td>GRID SCAN</td>
+                    <td>DAT</td>
+                    <td>${count}</td>
+                    <td>${lastSync}</td>
+                    <td class="${statusClass}">${statusText}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Also update the manager list in notebook
+            refreshCategoryManager();
+        }
+
+        // --- NEW FUNCTION: BUILD CATEGORY (Modified to trigger updates) ---
+        function buildAndSelectCategory() {
+            const input = document.getElementById('new-cat-input');
+            const newCatName = input.value.trim();
+            
+            // Validate input
+            if (!newCatName) {
+                showGridToast("ERROR: CATEGORY NAME CANNOT BE EMPTY");
+                return;
+            }
+
+            // Get the notebook specific list
+            const list = document.getElementById('notebook-cat-list');
+
+            // Create the new list item
+            const li = document.createElement('li');
+            li.innerText = newCatName;
+            li.style.color = "#00ff41"; // Style for user-generated categories
+            
+            // Add the click event
+            li.onclick = function() { 
+                selectCategory('notebook', newCatName); 
+            };
+
+            // Add to the Dropdown List
+            list.appendChild(li);
+
+            // Automatically select this new category immediately
+            selectCategory('notebook', newCatName);
+
+            // Visual feedback
+            showGridToast("SYSTEM: NEW CATEGORY NODE BUILT [" + newCatName + "]");
+            
+            // Clear input
+            input.value = "";
+
+            // Refresh the manager list immediately
+            refreshCategoryManager();
+            // Update comms table to show empty row for new category
+            updateSecureCommsTable();
         }
     </script>
 </body>
